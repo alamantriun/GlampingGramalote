@@ -888,45 +888,58 @@ function preloadFrames() {
   return Promise.all(promises);
 }
 
+// DPR global para consistencia entre resizeCanvas y render
+let _dpr = Math.min(window.devicePixelRatio || 1, 2); // cap en 2 para evitar exceso
+
 function resizeCanvas() {
-  const dpr = window.devicePixelRatio || 1;
+  _dpr = Math.min(window.devicePixelRatio || 1, 2);
   const w = window.innerWidth;
   const h = window.innerHeight;
-  heroCanvas.width = w * dpr;
-  heroCanvas.height = h * dpr;
+  // Setear dimensiones físicas del canvas
+  heroCanvas.width = Math.round(w * _dpr);
+  heroCanvas.height = Math.round(h * _dpr);
+  // Dimensiones CSS (lógicas)
   heroCanvas.style.width = w + 'px';
   heroCanvas.style.height = h + 'px';
-  heroCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  // Resetear transform antes de aplicar escala DPR
+  heroCtx.setTransform(1, 0, 0, 1, 0, 0);
+  heroCtx.scale(_dpr, _dpr);
+  // Interpolación bicúbica para suavizar el escalado de los frames (720p → pantalla HiDPI)
+  heroCtx.imageSmoothingEnabled = true;
+  heroCtx.imageSmoothingQuality = 'high';
   render();
 }
 
 function render() {
-  const dpr = window.devicePixelRatio || 1;
-  const w = heroCanvas.width / dpr;
-  const h = heroCanvas.height / dpr;
+  // Tamaño lógico (CSS pixels)
+  const w = heroCanvas.width / _dpr;
+  const h = heroCanvas.height / _dpr;
   heroCtx.clearRect(0, 0, w, h);
+  // Asegurar interpolación suave en cada fotograma
+  heroCtx.imageSmoothingEnabled = true;
+  heroCtx.imageSmoothingQuality = 'high';
   const img = images[Math.round(frames.frame)];
-  if(!img || !img.complete) return;
+  if (!img || !img.complete || img.naturalWidth === 0) return;
   
-  const hRatio = w / img.width;
-  const vRatio = h / img.height;
+  const hRatio = w / img.naturalWidth;
+  const vRatio = h / img.naturalHeight;
   let ratio = Math.max(hRatio, vRatio);
   
   if (w <= 768) {
-    // En móviles, limitamos el ratio para que no haga un zoom excesivo (Math.max recorta mucho)
+    // En móviles, limitamos el ratio para que no haga un zoom excesivo
     ratio = Math.max(hRatio, vRatio * 0.55);
   }
 
-  const drawWidth = img.width * ratio;
-  const drawHeight = img.height * ratio;
-  const centerShift_x = (w - drawWidth) / 2;
-  const centerShift_y = (h - drawHeight) / 2;  
+  const drawWidth  = img.naturalWidth  * ratio;
+  const drawHeight = img.naturalHeight * ratio;
+  const offsetX = (w - drawWidth)  / 2;
+  const offsetY = (h - drawHeight) / 2;
   
-  heroCtx.drawImage(img, 0,0, img.width, img.height,
-                    centerShift_x, centerShift_y, drawWidth, drawHeight);
+  heroCtx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight,
+                    offsetX, offsetY, drawWidth, drawHeight);
 }
 
-// Wait for all images before first render
+// Esperar a que todas las imágenes carguen antes del primer render
 preloadFrames().then(() => {
   resizeCanvas();
   setTimeout(() => ScrollTrigger.refresh(), 100);
