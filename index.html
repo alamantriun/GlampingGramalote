@@ -107,6 +107,7 @@
   .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: rgba(244,237,216,0.45); font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; animation: bounce 2s infinite; }
   .hero-scroll::after { content: ''; display: block; width: 1px; height: 40px; background: rgba(244,237,216,0.3); }
   @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+  @keyframes bounceMobile { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
 
   .strip { background: var(--verde-oscuro); padding: 1rem 3rem; display: flex; align-items: center; justify-content: center; gap: 4rem; flex-wrap: wrap; }
   .strip-item { display: flex; align-items: center; gap: 0.7rem; color: rgba(244,237,216,0.8); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; }
@@ -395,7 +396,7 @@
     .hero-location { font-size: 0.72rem; margin-bottom: 2.5rem; }
     .hero-cta { flex-direction: column; align-items: center; gap: 0.8rem; }
     .btn-primary, .btn-outline { width: 100%; max-width: 280px; justify-content: center; padding: 0.9rem 2rem; font-size: 0.74rem; }
-    .hero-scroll { bottom: 1.5rem; }
+    .hero-scroll { bottom: 1.5rem; left: 5.5rem; transform: none; animation: bounceMobile 2s infinite; }
     .hero-company-name { font-size: clamp(1.8rem, 6vw, 3.5rem); }
     .about-img-wrap img { height: 280px; border-radius: 8px; }
     .about-accent { display: none; }
