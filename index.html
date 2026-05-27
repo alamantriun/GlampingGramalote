@@ -381,19 +381,88 @@
     .ubi-inner { grid-template-columns: 1fr; }
     .footer-top { grid-template-columns: 1fr; gap: 2rem; }
     .strip { gap: 1.5rem; }
+    .hero-company-name { font-size: clamp(2.2rem, 7vw, 4.5rem); }
   }
   @media (max-width: 768px) {
     .hamburger { display: flex; }
     .nav-links { display: none; }
-  }
-  @media (max-width: 600px) {
-    .hero h1 { font-size: 2.8rem; }
+    section { padding: 3.5rem 1.2rem; }
+    .hero { padding: 5rem 1.2rem 2rem; min-height: 100svh; }
+    .hero-badge { font-size: 0.6rem; padding: 0.35rem 1rem; letter-spacing: 0.18em; margin-bottom: 1.2rem; }
+    .hero h1 { font-size: clamp(2.4rem, 8vw, 3.5rem); }
+    .hero-sub { font-size: 0.78rem; letter-spacing: 0.12em; margin-bottom: 2rem; }
+    .hero-location { font-size: 0.72rem; margin-bottom: 2.5rem; }
+    .hero-cta { flex-direction: column; align-items: center; gap: 0.8rem; }
+    .btn-primary, .btn-outline { width: 100%; max-width: 280px; justify-content: center; padding: 0.9rem 2rem; font-size: 0.74rem; }
+    .hero-scroll { bottom: 1.5rem; }
+    .hero-company-name { font-size: clamp(1.8rem, 6vw, 3.5rem); }
+    .about-img-wrap img { height: 280px; border-radius: 8px; }
+    .about-accent { display: none; }
+    .about-stats { grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .stat-num { font-size: 2rem; }
+    .stat-box { padding: 1.2rem; }
+    .section-title { font-size: clamp(1.8rem, 5vw, 2.8rem); }
+    .hospedajes-header .section-text { max-width: 100%; }
+    .cards-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .card-body { padding: 1.4rem; }
+    .card-img { height: 200px; }
     .exp-grid { grid-template-columns: 1fr; }
-    .exp-item { grid-column: span 1 !important; }
-    .cards-grid { grid-template-columns: 1fr; }
+    .exp-item { grid-column: span 1 !important; grid-row: span 1 !important; min-height: 240px; }
+    .exp-content { padding: 1.5rem; }
+    .exp-item:not(.text-only) .exp-name, .exp-item.text-only .exp-name { font-size: 1.4rem; }
+    .exp-item:not(.text-only) .exp-desc, .exp-item.text-only .exp-desc { font-size: 0.82rem; }
+    .galeria { padding: 4rem 1.2rem; }
+    .galeria-grid { grid-template-columns: 1fr; grid-template-rows: auto; gap: 6px; }
+    .galeria-item:first-child { grid-row: auto; }
+    .galeria-item img { height: 220px; }
+    .galeria-inner > div:first-child { flex-direction: column; align-items: flex-start; }
+    .reserva-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .form-box { padding: 1.5rem; }
     .form-row { grid-template-columns: 1fr; }
-    .galeria-grid { grid-template-columns: 1fr; }
-    .form-box { padding: 1.8rem; }
+    .form-group input, .form-group select, .form-group textarea { padding: 0.9rem 1rem; font-size: 1rem; }
+    .whatsapp-btn { padding: 0.9rem; font-size: 0.8rem; }
+    .ubi-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .map-placeholder { height: 280px; }
+    footer { padding: 3rem 1.2rem 2rem; }
+    .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .float-wa { width: 50px; height: 50px; bottom: 1.5rem; right: 1.2rem; font-size: 1.3rem; }
+    #back-top { bottom: 4.5rem; right: 1.3rem; width: 36px; height: 36px; }
+    #lightbox-prev, #lightbox-next { width: 40px; height: 40px; font-size: 1.2rem; }
+    #lightbox-prev { left: 0.8rem; }
+    #lightbox-next { right: 0.8rem; }
+    #lightbox img { max-width: 95vw; max-height: 80vh; }
+    .contact-link { padding: 1.2rem; }
+    .contact-link-icon { width: 42px; height: 42px; }
+  }
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 2.2rem; }
+    .hero-company-name { font-size: clamp(1.5rem, 8vw, 2.5rem); }
+    .hero-badge { font-size: 0.55rem; padding: 0.3rem 0.8rem; }
+    .section-title { font-size: clamp(1.5rem, 5vw, 2.2rem); }
+    .section-label { font-size: 0.62rem; }
+    .about-img-wrap img { height: 220px; }
+    .about-stats { grid-template-columns: 1fr; }
+    .stat-num { font-size: 1.8rem; }
+    .card-img { height: 180px; }
+    .card-title { font-size: 1.3rem; }
+    .card-desc { font-size: 0.82rem; }
+    .exp-item { min-height: 200px; }
+    .galeria-item img { height: 180px; }
+    .map-placeholder { height: 240px; }
+    .contact-link-info strong { font-size: 0.82rem; }
+    .contact-link-info span { font-size: 0.72rem; }
+    .nav-logo { font-size: 1.1rem; }
+    .form-title { font-size: 1.5rem; }
+  }
+  @supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .float-wa { bottom: calc(1.5rem + env(safe-area-inset-bottom)); }
+    #back-top { bottom: calc(4.5rem + env(safe-area-inset-bottom)); }
+    footer { padding-bottom: calc(2.5rem + env(safe-area-inset-bottom)); }
+  }
+  @media (hover: none) and (pointer: coarse) {
+    .btn-primary, .btn-outline, .btn-reservar, .whatsapp-btn, .contact-link { min-height: 44px; }
+    .feature-tag { padding: 0.35rem 0.8rem; font-size: 0.72rem; }
   }
 </style>
 </head>
@@ -801,41 +870,60 @@ const currentFrame = index => `img/frames/${(index + 1).toString().padStart(2, '
 const images = [];
 const frames = { frame: frameCount - 1 };
 
-for (let i = 0; i < frameCount; i++) {
-  const img = new Image();
-  img.src = currentFrame(i);
-  images.push(img);
+// Preload all frame images with Promise for reliable first-load
+function preloadFrames() {
+  const promises = [];
+  for (let i = 0; i < frameCount; i++) {
+    const promise = new Promise((resolve) => {
+      const img = new Image();
+      img.onload = resolve;
+      img.onerror = resolve;
+      img.src = currentFrame(i);
+      images.push(img);
+    });
+    promises.push(promise);
+  }
+  return Promise.all(promises);
 }
 
 function resizeCanvas() {
-  heroCanvas.width = window.innerWidth;
-  heroCanvas.height = window.innerHeight;
+  const dpr = window.devicePixelRatio || 1;
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  heroCanvas.width = w * dpr;
+  heroCanvas.height = h * dpr;
+  heroCanvas.style.width = w + 'px';
+  heroCanvas.style.height = h + 'px';
+  heroCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
   render();
 }
 
 function render() {
-  heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+  const dpr = window.devicePixelRatio || 1;
+  const w = heroCanvas.width / dpr;
+  const h = heroCanvas.height / dpr;
+  heroCtx.clearRect(0, 0, w, h);
   const img = images[Math.round(frames.frame)];
   if(!img || !img.complete) return;
   
-  const hRatio = heroCanvas.width / img.width;
-  const vRatio = heroCanvas.height / img.height;
+  const hRatio = w / img.width;
+  const vRatio = h / img.height;
   const ratio = Math.max(hRatio, vRatio);
 
   const drawWidth = img.width * ratio;
   const drawHeight = img.height * ratio;
-  const centerShift_x = (heroCanvas.width - drawWidth) / 2;
-  const centerShift_y = (heroCanvas.height - drawHeight) / 2;  
+  const centerShift_x = (w - drawWidth) / 2;
+  const centerShift_y = (h - drawHeight) / 2;  
   
   heroCtx.drawImage(img, 0,0, img.width, img.height,
                     centerShift_x, centerShift_y, drawWidth, drawHeight);
 }
 
-if (images[frameCount - 1].complete) {
+// Wait for all images before first render
+preloadFrames().then(() => {
   resizeCanvas();
-} else {
-  images[frameCount - 1].onload = resizeCanvas;
-}
+  setTimeout(() => ScrollTrigger.refresh(), 100);
+});
 window.addEventListener("resize", resizeCanvas);
 
 // ══════════════════════════════════════════════════════════════════
@@ -854,7 +942,8 @@ window.addEventListener("resize", resizeCanvas);
 // El hero se fija en pantalla. Los frames avanzan con el scroll.
 // El texto desaparece progresivamente con blur + translate hacia arriba.
 const HERO_SCRUB = 0.8;       // ← MODIFICABLE: suavidad del scrub del hero
-const HERO_PIN_DISTANCE = '500%'; // ← MODIFICABLE: distancia total del pin
+const isMobile = window.innerWidth <= 768;
+const HERO_PIN_DISTANCE = isMobile ? '250%' : '500%'; // Más corto en móvil
 
 let tlHero = gsap.timeline({
   scrollTrigger: {
@@ -1379,7 +1468,10 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 });
 
 window.addEventListener('scroll', () => {
-  document.getElementById('nav').style.padding = window.scrollY > 80 ? '0.8rem 3rem' : '1.2rem 3rem';
+  const mobile = window.innerWidth <= 768;
+  document.getElementById('nav').style.padding = window.scrollY > 80
+    ? (mobile ? '0.6rem 1.2rem' : '0.8rem 3rem')
+    : (mobile ? '1rem 1.2rem' : '1.2rem 3rem');
   const prog = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
   document.getElementById('scroll-progress').style.width = prog + '%';
   const bt = document.getElementById('back-top');
@@ -1456,9 +1548,15 @@ document.getElementById('lightbox').addEventListener('click', function(e) { if (
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); if (e.key === 'ArrowRight') lbNext(); if (e.key === 'ArrowLeft') lbPrev(); });
 
 // Recalcular ScrollTrigger cuando TODAS las imágenes hayan cargado
-// Esto evita el problema del espacio en blanco gigante al hacer scroll rápido hacia arriba
 window.addEventListener('load', () => {
-  ScrollTrigger.refresh();
+  setTimeout(() => ScrollTrigger.refresh(), 300);
+});
+// Recalcular al rotar pantalla en móvil
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    resizeCanvas();
+    ScrollTrigger.refresh();
+  }, 400);
 });
 </script>
 </body>
