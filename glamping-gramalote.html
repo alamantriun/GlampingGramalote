@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glamping Culumpulos Gramalote</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="description" content="Glamping Culumpulos Gramalote – Domos, camping y planes románticos en Nuevo Gramalote, Norte de Santander, Colombia. Reserva ahora."><meta name="theme-color" content="#1b3a2d">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --verde-oscuro: #0d1b1e;
+    --verde-medio: #1a3c40;
+    --verde-claro: #2c6e63;
+    --tierra: #c68a53;
+    --ambar: #d4a44a;
+    --ambar-claro: #f0c96b;
+    --crema: #f4efe6;
+    --crema-oscuro: #e5ddd0;
+    --blanco-natural: #faf8f4;
+    --carbon: #0a0f10;
+    --gris-calido: #7a8a87;
+    --heading: 'Playfair Display', Georgia, serif;
+    --body: 'DM Sans', 'Segoe UI', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--body); background: var(--blanco-natural); color: var(--carbon); overflow-x: hidden; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.2rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(27, 58, 45, 0.93);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(201,146,59,0.25);
+    transition: padding 0.3s;
+  }
+  .nav-logo { font-family: var(--heading); font-size: 1.3rem; font-weight: 500; letter-spacing: 0.08em; color: var(--crema); text-decoration: none; text-transform: uppercase; }
+  .nav-logo span { color: var(--ambar); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { color: var(--crema-oscuro); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 400; transition: color 0.25s; }
+  .nav-links a:hover { color: var(--ambar); }
+
+  .hero {
+    width: 100%;
+    min-height: 100vh;
+    background: radial-gradient(circle at center, #112a38 0%, #061014 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; position: relative; padding: 6rem 1.5rem 2rem;
+    overflow: hidden;
+  }
+  #hero-canvas {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+    opacity: 0; transform: scale(1.05); filter: blur(4px);
+  }
+  #hero-final-img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
+    opacity: 0; transform: scale(1.05); object-fit: contain; pointer-events: none;
+  }
+  .hero-company-name {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: var(--heading); font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 500; color: var(--crema); letter-spacing: 0.04em; text-align: center;
+    line-height: 1.1; z-index: 5; opacity: 0; pointer-events: none;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  }
+  .hero-company-name span { color: var(--ambar); font-style: italic; }
+
+  .dome-features { position: absolute; inset: 0; z-index: 20; pointer-events: none; }
+  .feature-popup {
+    position: absolute; background: rgba(13, 27, 30, 0.55); backdrop-filter: blur(16px);
+    border: 1px solid rgba(201,146,59,0.3); padding: 1.2rem 1.8rem; border-radius: 12px;
+    color: var(--crema); text-align: left; transform: translateY(30px); opacity: 0;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4); pointer-events: none;
+  }
+  .feature-popup h4 { font-family: var(--heading); font-size: 1.35rem; font-weight: 500; color: var(--ambar-claro); margin-bottom: 0.3rem; }
+  .feature-popup p { font-size: 0.85rem; font-weight: 300; letter-spacing: 0.05em; color: rgba(244,237,216,0.85); margin: 0; }
+  .connector-wrapper { position: absolute; height: 1px; pointer-events: none; }
+  .connector-line { position: absolute; inset: 0; background: rgba(201,146,59,0.7); transform-origin: left center; }
+  .connector-dot { position: absolute; top: 50%; transform: translateY(-50%); width: 8px; height: 8px; border-radius: 50%; background: var(--ambar); box-shadow: 0 0 12px var(--ambar); }
+  @media (max-width: 768px) {
+    .connector-wrapper { display: none; }
+    .feature-popup { position: relative; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important; margin: 1rem auto; width: 85%; transform: translateY(20px); }
+    .dome-features { display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 5rem; }
+  }
+
+  .hero > *:not(#hero-canvas):not(#hero-final-img):not(.hero-company-name):not(#star-canvas):not(.dome-features) {
+    position: relative; z-index: 3;
+  }
+  #star-canvas { z-index: 2; }
+  .hero-badge { display: inline-block; font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ambar-claro); border: 1px solid rgba(212,164,74,0.45); padding: 0.45rem 1.5rem; border-radius: 2px; margin-bottom: 1.8rem; background: rgba(0,0,0,0.25); font-weight: 500; }
+  .hero h1 { font-family: var(--heading); font-size: clamp(3.2rem, 7vw, 5.5rem); font-weight: 400; line-height: 1.1; color: var(--crema); letter-spacing: -0.01em; margin-bottom: 0.6rem; }
+  .hero h1 em { font-style: italic; color: var(--ambar); }
+  .hero-sub { font-size: 0.88rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(244,239,230,0.65); margin-bottom: 2.8rem; font-weight: 400; }
+  .hero-location { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: rgba(244,237,216,0.65); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 3.5rem; }
+  .hero-location::before, .hero-location::after { content: ''; display: block; width: 40px; height: 1px; background: rgba(244,237,216,0.35); }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+  .btn-primary { display: inline-flex; align-items: center; gap: 0.6rem; color: var(--carbon); text-decoration: none; font-size: 0.76rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; padding: 1rem 2.6rem; border-radius: 30px; border: none; cursor: pointer; transition: transform 0.2s, box-shadow 0.25s; font-family: var(--body); position: relative; overflow: hidden; z-index: 1; background: transparent; }
+  .btn-primary::before { content: ''; position: absolute; inset: 2px; background: var(--ambar); border-radius: 28px; z-index: -1; transition: background 0.2s; }
+  .btn-primary:hover::before { background: #b87e2a; }
+  .btn-primary::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent, rgba(255,255,255,0.1), transparent 60%, rgba(255,255,255,0.9)); animation: rotate-beam 2.5s linear infinite; z-index: -2; }
+  @keyframes rotate-beam { 100% { transform: rotate(360deg); } }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(201,146,59,0.3); }
+  .btn-outline { display: inline-flex; align-items: center; gap: 0.6rem; background: rgba(255,255,255,0.05); color: var(--crema); text-decoration: none; font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 400; padding: 1rem 2.4rem; border-radius: 30px; border: 1px solid rgba(244,237,216,0.3); cursor: pointer; transition: background 0.2s, border-color 0.2s, transform 0.15s; backdrop-filter: blur(5px); }
+  .btn-outline:hover { background: rgba(244,237,216,0.15); border-color: var(--crema); transform: translateY(-2px); }
+  .hero-scroll { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: rgba(244,237,216,0.45); font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; animation: bounce 2s infinite; }
+  .hero-scroll::after { content: ''; display: block; width: 1px; height: 40px; background: rgba(244,237,216,0.3); }
+  @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+
+  .strip { background: var(--verde-oscuro); padding: 1rem 3rem; display: flex; align-items: center; justify-content: center; gap: 4rem; flex-wrap: wrap; }
+  .strip-item { display: flex; align-items: center; gap: 0.7rem; color: rgba(244,237,216,0.8); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; }
+
+  section { padding: 6rem 3rem; }
+  .section-label { font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ambar); font-weight: 600; margin-bottom: 1rem; }
+  .section-title { font-family: var(--heading); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 400; line-height: 1.18; color: var(--verde-oscuro); margin-bottom: 1.4rem; }
+  .section-title em { font-style: italic; color: var(--ambar); }
+  .section-text { font-size: 0.92rem; line-height: 1.85; color: var(--gris-calido); max-width: 540px; font-weight: 400; }
+
+  /* ══════════════════════════════════════════════════════════════
+     CINEMATIC SCROLL — Apple-style sticky + parallax system
+     Propiedades GPU: transform(translate3d, scale), opacity, filter
+     ══════════════════════════════════════════════════════════════ */
+
+  /* --- Sticky wrapper para About (pin mientras texto se revela) --- */
+  .about-scroll-container {
+    position: relative;
+  }
+  .about-grid {
+    will-change: transform, opacity;
+  }
+  .about-img-wrap img {
+    will-change: transform;
+  }
+
+  /* --- Cinematic text reveal: cada línea aparece desde abajo con blur --- */
+  .cine-reveal {
+    opacity: 0;
+    transform: translate3d(0, 60px, 0);
+    filter: blur(8px);
+    will-change: transform, opacity, filter;
+    transition: none; /* GSAP controla todo */
+  }
+  .cine-reveal.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
+  }
+
+  /* --- Parallax scale en imágenes --- */
+  .cine-parallax-img {
+    will-change: transform;
+    transform: translate3d(0, 0, 0) scale(1.08);
+  }
+
+  /* --- Hospedajes: tarjetas con stagger cinematográfico --- */
+  .card {
+    will-change: transform, opacity;
+  }
+
+  /* --- Experiencias: items con scale-in desde 0.85 --- */
+  .exp-item {
+    will-change: transform, opacity;
+  }
+
+  /* --- Galería: parallax horizontal sutil --- */
+  .galeria-grid {
+    will-change: transform;
+  }
+
+  /* --- Sección divider line (decorativo Apple-style) --- */
+  .cine-divider {
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--ambar), transparent);
+    margin: 0 auto;
+    will-change: width;
+  }
+
+  .about-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .about-img-wrap { position: relative; }
+  .about-img-wrap img { width: 100%; height: 520px; object-fit: cover; border-radius: 4px; display: block; }
+  .about-accent { position: absolute; top: -20px; right: -20px; width: 180px; height: 180px; background: var(--crema-oscuro); border-radius: 50%; z-index: -1; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.8rem; }
+  .stat-box { padding: 1.5rem; background: var(--crema); border-left: 3px solid var(--ambar); }
+  .stat-num { font-family: var(--heading); font-size: 2.6rem; font-weight: 500; color: var(--verde-oscuro); line-height: 1; }
+  .stat-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--gris-calido); margin-top: 0.3rem; }
+
+  .hospedajes { background: var(--carbon); position: relative; overflow: hidden; }
+  .hospedajes::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 30% 30%, rgba(46,90,66,0.15), transparent 50%), radial-gradient(circle at 70% 70%, rgba(201,146,59,0.1), transparent 50%); z-index: 0; pointer-events: none; }
+  .hospedajes-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+  .hospedajes .section-title, .hospedajes .section-label { color: var(--crema); }
+  .hospedajes .section-text { color: rgba(244,237,216,0.7); }
+  .hospedajes-header { text-align: center; margin-bottom: 4rem; }
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; position: relative; }
+  .card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s; backdrop-filter: blur(10px); position: relative; }
+  .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(201,146,59,0.12), transparent 40%); z-index: 0; pointer-events: none; opacity: 0; transition: opacity 0.3s; }
+  .card:hover::before { opacity: 1; }
+  .card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); border-color: rgba(201,146,59,0.3); }
+  .card-img { width: 100%; height: 240px; object-fit: cover; display: block; transition: transform 0.5s ease; position: relative; z-index: 1; }
+  .card:hover .card-img { transform: scale(1.04); }
+  .card-img-wrap { overflow: hidden; position: relative; z-index: 1; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .card-body { padding: 1.8rem; position: relative; z-index: 1; background: linear-gradient(to bottom, rgba(28,26,22,0.4), rgba(28,26,22,0.8)); }
+  .card-badge { display: inline-block; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ambar); border: 1px solid rgba(201,146,59,0.4); padding: 0.25rem 0.8rem; border-radius: 30px; margin-bottom: 0.9rem; background: rgba(201,146,59,0.1); }
+  .card-title { font-family: var(--heading); font-size: 1.5rem; font-weight: 500; color: var(--crema); margin-bottom: 0.7rem; line-height: 1.25; }
+  .card-desc { font-size: 0.85rem; color: rgba(244,237,216,0.7); line-height: 1.75; margin-bottom: 1.4rem; font-weight: 300; }
+  .card-features { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.6rem; }
+  .feature-tag { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--crema); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 0.25rem 0.7rem; border-radius: 6px; font-weight: 400; }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(244,237,216,0.1); padding-top: 1.2rem; }
+  .card-price { font-family: var(--heading); font-size: 1.4rem; font-weight: 500; color: var(--ambar-claro); }
+  .card-price span { font-size: 0.75rem; font-family: var(--body); color: rgba(244,239,230,0.5); font-weight: 400; }
+  .btn-reservar { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--verde-claro); color: #fff; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500; padding: 0.7rem 1.4rem; border-radius: 30px; border: none; text-decoration: none; cursor: pointer; transition: background 0.2s, transform 0.15s; }
+  .btn-reservar:hover { background: var(--ambar); transform: translateY(-1px); }
+
+  .exp-inner { max-width: 1200px; margin: 0 auto; }
+  .exp-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: minmax(280px, auto); gap: 1.5rem; margin-top: 3.5rem; }
+  .exp-item { padding: 0; border-radius: 16px; border: none; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; }
+  .exp-item:hover { transform: translateY(-8px); box-shadow: 0 25px 45px rgba(0,0,0,0.2); }
+  .exp-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+  .exp-item:nth-child(2) { grid-column: span 2; }
+  .exp-item:nth-child(3) { grid-column: span 1; }
+  .exp-item:nth-child(4) { grid-column: span 1; }
+  .exp-item:nth-child(5) { grid-column: span 2; }
+  .exp-item:nth-child(6) { grid-column: span 2; }
+  .exp-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); z-index: 0; }
+  .exp-item:hover .exp-bg { transform: scale(1.08); }
+  .exp-item:not(.text-only)::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,27,30,0.92) 0%, rgba(13,27,30,0.2) 60%, transparent 100%); z-index: 1; pointer-events: none; }
+  .exp-content { position: relative; z-index: 2; padding: 2.2rem; }
+  .exp-item:not(.text-only) .exp-name { font-family: var(--heading); font-size: 1.7rem; font-weight: 500; color: var(--crema); margin-bottom: 0.6rem; line-height: 1.15; }
+  .exp-item:not(.text-only) .exp-desc { font-size: 0.9rem; color: rgba(244,239,230,0.85); line-height: 1.7; font-weight: 400; }
+  .exp-item.text-only { background: var(--verde-oscuro); justify-content: center; }
+  .exp-item.text-only .exp-name { font-family: var(--heading); font-size: 1.7rem; font-weight: 500; color: var(--ambar-claro); margin-bottom: 0.6rem; line-height: 1.15; }
+  .exp-item.text-only .exp-desc { font-size: 0.9rem; color: rgba(244,239,230,0.7); line-height: 1.7; font-weight: 400; }
+
+  .galeria { background: var(--verde-oscuro); padding: 6rem 3rem; }
+  .galeria-inner { max-width: 1200px; margin: 0 auto; }
+  .galeria .section-title { color: var(--crema); }
+  .galeria .section-label { color: var(--ambar); }
+  .galeria-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 240px 240px; gap: 8px; margin-top: 3rem; }
+  .galeria-item { overflow: hidden; border-radius: 3px; }
+  .galeria-item:first-child { grid-row: 1 / 3; }
+  .galeria-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; filter: brightness(0.88); }
+  .galeria-item:hover img { transform: scale(1.06); filter: brightness(1); }
+  .galeria-cta { text-align: center; margin-top: 2.5rem; }
+  .galeria-cta a { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--ambar); text-decoration: none; font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; border-bottom: 1px solid rgba(201,146,59,0.4); padding-bottom: 2px; transition: border-color 0.2s; }
+  .galeria-cta a:hover { border-color: var(--ambar); }
+
+  .reserva { background: var(--blanco-natural); }
+  .reserva-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.1fr; gap: 6rem; align-items: start; }
+  .form-box { background: var(--crema); padding: 3rem; border-radius: 4px; border-top: 4px solid var(--ambar); }
+  .form-title { font-family: var(--heading); font-size: 1.8rem; font-weight: 500; color: var(--verde-oscuro); margin-bottom: 0.5rem; }
+  .form-sub { font-size: 0.82rem; color: var(--gris-calido); margin-bottom: 2rem; font-weight: 300; }
+  .form-group { margin-bottom: 1.3rem; }
+  .form-group label { display: block; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--verde-oscuro); font-weight: 500; margin-bottom: 0.45rem; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--crema-oscuro); border-radius: 4px; background: #fff; font-family: var(--body); font-size: 0.88rem; color: var(--carbon); outline: none; transition: border-color 0.25s; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--ambar); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group textarea { min-height: 100px; resize: vertical; }
+  .whatsapp-btn { display: flex; align-items: center; justify-content: center; gap: 0.7rem; width: 100%; background: #25D366; color: #fff; font-size: 0.82rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; padding: 1rem; border-radius: 4px; border: none; cursor: pointer; text-decoration: none; margin-top: 1.5rem; transition: background 0.2s, transform 0.15s; font-family: var(--body); }
+  .whatsapp-btn:hover { background: #1da851; transform: translateY(-2px); }
+  .form-note { text-align: center; font-size: 0.72rem; color: var(--gris-calido); margin-top: 0.7rem; }
+
+  .contact-links { display: flex; flex-direction: column; gap: 1.2rem; }
+  .contact-link { display: flex; align-items: center; gap: 1.2rem; padding: 1.4rem 1.5rem; background: var(--crema); border-radius: 3px; text-decoration: none; color: inherit; border: 1px solid transparent; transition: border-color 0.2s, background 0.2s, transform 0.2s; }
+  .contact-link:hover { border-color: var(--ambar); background: #fff; transform: translateX(4px); }
+  .contact-link-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+  .icon-wa { background: rgba(37,211,102,0.12); }
+  .icon-ig { background: rgba(201,146,59,0.12); }
+  .icon-tel { background: rgba(46,90,66,0.12); }
+  .contact-link-info strong { display: block; font-size: 0.88rem; font-weight: 500; color: var(--verde-oscuro); margin-bottom: 0.15rem; }
+  .contact-link-info span { font-size: 0.78rem; color: var(--gris-calido); font-weight: 300; }
+
+  .ubicacion { background: var(--crema); }
+  .ubi-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.6fr; gap: 4rem; align-items: center; }
+  .map-placeholder { height: 340px; border-radius: 4px; overflow: hidden; }
+  .map-placeholder iframe { width: 100%; height: 100%; border: none; }
+
+  footer { background: var(--carbon); color: rgba(244,237,216,0.6); padding: 4rem 3rem 2.5rem; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; }
+  .footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(244,237,216,0.1); margin-bottom: 2rem; }
+  .footer-logo { font-family: var(--heading); font-size: 1.5rem; font-weight: 500; color: var(--crema); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.8rem; }
+  .footer-logo span { color: var(--ambar); }
+  .footer-tagline { font-size: 0.83rem; line-height: 1.7; font-weight: 300; margin-bottom: 1.5rem; }
+  .footer-social { display: flex; gap: 0.8rem; }
+  .social-link { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(244,237,216,0.2); border-radius: 50%; color: rgba(244,237,216,0.6); text-decoration: none; font-size: 0.85rem; transition: border-color 0.2s, color 0.2s, background 0.2s; }
+  .social-link:hover { border-color: var(--ambar); color: var(--ambar); background: rgba(201,146,59,0.08); }
+  .footer-col h4 { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ambar); margin-bottom: 1.4rem; font-weight: 500; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+  .footer-col ul li a { font-size: 0.83rem; color: rgba(244,237,216,0.55); text-decoration: none; font-weight: 300; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--crema); }
+  .footer-col ul li span { font-size: 0.83rem; font-weight: 300; }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  .footer-bottom p { font-size: 0.72rem; font-weight: 300; }
+  .footer-bottom a { color: rgba(244,237,216,0.4); text-decoration: none; font-size: 0.72rem; font-weight: 300; transition: color 0.2s; }
+  .footer-bottom a:hover { color: var(--ambar); }
+
+  /* ── Custom Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--carbon); }
+  ::-webkit-scrollbar-thumb { background: var(--ambar); border-radius: 3px; }
+
+  /* ── Scroll Progress Bar ── */
+  #scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--ambar), #e8b86d); z-index: 9999; transition: width 0.1s linear; }
+
+
+
+  /* ── Star Canvas ── */
+  #star-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+  /* ── Hamburger ── */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; z-index: 101; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: var(--crema); border-radius: 2px; transition: transform 0.35s, opacity 0.35s, width 0.35s; transform-origin: center; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ── Mobile Menu ── */
+  .mobile-menu { display: none; position: fixed; inset: 0; background: rgba(15,30,20,0.97); backdrop-filter: blur(20px); z-index: 99; flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; }
+  .mobile-menu.open { display: flex; animation: fadeInMenu 0.4s ease; }
+  @keyframes fadeInMenu { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+  .mobile-menu a { font-family: var(--heading); font-size: 2rem; font-weight: 400; color: var(--crema); text-decoration: none; letter-spacing: 0.04em; transition: color 0.25s; }
+  .mobile-menu a:hover { color: var(--ambar); }
+
+  /* ── Strip Marquee ── */
+  .strip { overflow: hidden; padding: 0; }
+  .strip-track { display: flex; gap: 4rem; width: max-content; animation: marquee 22s linear infinite; padding: 1rem 0; }
+  .strip-track:hover { animation-play-state: paused; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .strip-item { flex-shrink: 0; display: flex; align-items: center; gap: 0.7rem; color: rgba(244,237,216,0.85); font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; }
+  .strip-sep { color: rgba(201,146,59,0.5); font-size: 1rem; }
+
+  /* ── Shimmer removed in favor of Spotlight ── */
+
+  /* ── Lightbox ── */
+  #lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 5000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+  #lightbox.active { display: flex; animation: lbIn 0.3s ease; }
+  @keyframes lbIn { from { opacity: 0; } to { opacity: 1; } }
+  #lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; border-radius: 4px; box-shadow: 0 30px 80px rgba(0,0,0,0.8); }
+  #lightbox-close { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 2rem; color: var(--crema); cursor: pointer; background: rgba(255,255,255,0.08); border: none; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+  #lightbox-close:hover { background: rgba(201,146,59,0.3); }
+  #lightbox-prev, #lightbox-next { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: var(--crema); font-size: 1.5rem; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s; }
+  #lightbox-prev { left: 1.5rem; }
+  #lightbox-next { right: 1.5rem; }
+  #lightbox-prev:hover, #lightbox-next:hover { background: rgba(201,146,59,0.25); border-color: var(--ambar); }
+  .galeria-item { cursor: zoom-in; }
+
+  /* ── Stat box pulse ── */
+  .stat-box { transition: transform 0.3s, box-shadow 0.3s; }
+  .stat-box:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(27,58,45,0.12); }
+
+  /* ── Section reveal (legacy, reemplazado por cine-reveal con GSAP) ── */
+  .reveal { opacity: 0; transform: translate3d(0, 32px, 0); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translate3d(0, 0, 0); }
+
+  /* ── Tooltip badge ── */
+  .hero-badge { cursor: default; }
+
+  /* ── Float WA ── */
+  .float-wa { position: fixed; bottom: 2rem; right: 2rem; z-index: 200; width: 56px; height: 56px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.5rem; animation: pulse-wa 3s infinite; transition: transform 0.25s; box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+  .float-wa:hover { transform: scale(1.12) rotate(-5deg); }
+  @keyframes pulse-wa { 0%,100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); } 50% { box-shadow: 0 4px 35px rgba(37,211,102,0.65), 0 0 0 10px rgba(37,211,102,0.07); } }
+
+  /* ── Back-to-top ── */
+  #back-top { position: fixed; bottom: 5.5rem; right: 2.1rem; z-index: 200; width: 40px; height: 40px; background: var(--verde-oscuro); border: 1px solid rgba(201,146,59,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ambar); font-size: 1.1rem; opacity: 0; transform: translateY(10px); transition: opacity 0.3s, transform 0.3s; text-decoration: none; }
+  #back-top.visible { opacity: 1; transform: translateY(0); }
+  #back-top:hover { background: var(--verde-medio); }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    section { padding: 4.5rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .about-img-wrap img { height: 340px; }
+    .reserva-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .exp-grid { grid-template-columns: repeat(2, 1fr); }
+    .exp-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+    .exp-item:nth-child(2) { grid-column: span 2; }
+    .exp-item:nth-child(3), .exp-item:nth-child(4) { grid-column: span 1; }
+    .exp-item:nth-child(5), .exp-item:nth-child(6) { grid-column: span 2; }
+    .galeria-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .galeria-item:first-child { grid-row: auto; }
+    .ubi-inner { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+    .strip { gap: 1.5rem; }
+  }
+  @media (max-width: 768px) {
+    .hamburger { display: flex; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 2.8rem; }
+    .exp-grid { grid-template-columns: 1fr; }
+    .exp-item { grid-column: span 1 !important; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .galeria-grid { grid-template-columns: 1fr; }
+    .form-box { padding: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+<div id="scroll-progress"></div>
+
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#hospedajes" onclick="closeMobileMenu()">Hospedajes</a>
+  <a href="#experiencias" onclick="closeMobileMenu()">Experiencias</a>
+  <a href="#galeria" onclick="closeMobileMenu()">Galería</a>
+  <a href="#reservar" onclick="closeMobileMenu()">Reservar</a>
+  <a href="#ubicacion" onclick="closeMobileMenu()">Cómo llegar</a>
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button id="lightbox-prev" onclick="lbPrev()">‹</button>
+  <img id="lightbox-img" src="" alt="">
+  <button id="lightbox-next" onclick="lbNext()">›</button>
+</div>
+
+<!-- Back to top -->
+<a href="#inicio" id="back-top" title="Volver arriba">↑</a>
+
+<nav id="nav">
+  <a href="#inicio" class="nav-logo">Glamping <span>Culumpulos</span></a>
+  <ul class="nav-links">
+    <li><a href="#hospedajes">Hospedajes</a></li>
+    <li><a href="#experiencias">Experiencias</a></li>
+    <li><a href="#galeria">Galería</a></li>
+    <li><a href="#reservar">Reservar</a></li>
+    <li><a href="#ubicacion">Cómo llegar</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<section id="inicio" class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <img id="hero-final-img" src="img/domo-final.png" alt="Glamping Domo Completo">
+  <div class="hero-company-name">Glamping<br><span>Culumpulos</span></div>
+  <div class="dome-features">
+    <div class="feature-popup" style="top: 15%; left: 4%;">
+      <h4>Confort Premium</h4>
+      <p>Cama doble y ropa de cama hotelera</p>
+      <div class="connector-wrapper" style="left: 100%; top: 50%; width: 22vw; transform: rotate(18deg); transform-origin: left center;">
+        <div class="connector-line"></div>
+        <div class="connector-dot" style="right: -3px;"></div>
+      </div>
+    </div>
+    <div class="feature-popup" style="top: 48%; right: 4%;">
+      <h4>Vista Panorámica</h4>
+      <p>Ventanal 180° hacia la montaña</p>
+      <div class="connector-wrapper" style="right: 100%; top: 50%; width: 18vw; transform: rotate(-8deg); transform-origin: right center;">
+        <div class="connector-line" style="transform-origin: right center;"></div>
+        <div class="connector-dot" style="left: -3px;"></div>
+      </div>
+    </div>
+    <div class="feature-popup" style="bottom: 12%; left: 10%;">
+      <h4>Aislamiento</h4>
+      <p>Diseño geodésico para clima ideal</p>
+      <div class="connector-wrapper" style="left: 100%; top: 50%; width: 20vw; transform: rotate(-25deg); transform-origin: left center;">
+        <div class="connector-line"></div>
+        <div class="connector-dot" style="right: -3px;"></div>
+      </div>
+    </div>
+  </div>
+  <canvas id="star-canvas"></canvas>
+  <span class="hero-badge">Nuevo Gramalote · Norte de Santander</span>
+  <h1>Duerme bajo<br>las <em>estrellas</em></h1>
+  <p class="hero-sub">Camping &amp; Glamping en el corazón de la montaña</p>
+  <div class="hero-location">Naturaleza · Descanso · Aventura</div>
+  <div class="hero-cta">
+    <a href="#reservar" class="btn-primary">Reservar ahora</a>
+    <a href="https://www.instagram.com/glampingramalote/" target="_blank" class="btn-outline">Ver en Instagram</a>
+  </div>
+  <div class="hero-scroll">Explorar</div>
+</section>
+
+<div class="strip" style="background:var(--verde-oscuro);">
+  <div class="strip-track">
+    <div class="strip-item">Domos glamping</div><div class="strip-sep">✦</div>
+    <div class="strip-item">Camping</div><div class="strip-sep">✦</div>
+    <div class="strip-item">Vista montaña</div><div class="strip-sep">✦</div>
+    <div class="strip-item">Fogatas y asados</div><div class="strip-sep">✦</div>
+    <div class="strip-item">320-4201013</div><div class="strip-sep">✦</div>
+    <div class="strip-item">Cielo estrellado</div><div class="strip-sep">✦</div>
+    <div class="strip-item">Domos glamping</div><div class="strip-sep">✦</div>
+    <div class="strip-item">Camping</div><div class="strip-sep">✦</div>
+    <div class="strip-item">Vista montaña</div><div class="strip-sep">✦</div>
+    <div class="strip-item">Fogatas y asados</div><div class="strip-sep">✦</div>
+    <div class="strip-item">320-4201013</div><div class="strip-sep">✦</div>
+    <div class="strip-item">Cielo estrellado</div><div class="strip-sep">✦</div>
+  </div>
+</div>
+
+<section id="nosotros">
+  <div class="about-grid">
+    <div class="about-img-wrap">
+      <img src="img/grupo_domos.jpg" alt="Glamping en la naturaleza" loading="lazy">
+      <div class="about-accent"></div>
+    </div>
+    <div>
+      <p class="section-label">Nuestro lugar</p>
+      <h2 class="section-title">Un rincón mágico<br>en <em>Gramalote</em></h2>
+      <p class="section-text">Bienvenido a Glamping Culumpulos, un refugio natural ubicado en el hermoso municipio de Nuevo Gramalote, Norte de Santander. Ofrecemos una experiencia única donde el confort se funde con la naturaleza salvaje de la cordillera colombiana.</p>
+      <p class="section-text" style="margin-top:1rem;">Ya sea que llegues en pareja, con familia o amigos, encontrarás el espacio perfecto para desconectarte del ruido de la ciudad y reconectarte con lo esencial.</p>
+      <div class="about-stats">
+        <div class="stat-box"><div class="stat-num">280+</div><div class="stat-label">Posts en Instagram</div></div>
+        <div class="stat-box"><div class="stat-num">5.6k</div><div class="stat-label">Seguidores</div></div>
+        <div class="stat-box"><div class="stat-num">12°C</div><div class="stat-label">Clima promedio</div></div>
+        <div class="stat-box"><div class="stat-num">100%</div><div class="stat-label">Naturaleza pura</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="hospedajes" class="hospedajes">
+  <div class="hospedajes-inner">
+    <div class="hospedajes-header">
+      <p class="section-label">Donde te hospedarás</p>
+      <h2 class="section-title">Elige tu <em>experiencia</em></h2>
+      <p class="section-text" style="margin: 0 auto; text-align: center;">Desde domos con todas las comodidades hasta zonas de camping. Cada opción está diseñada para vivir la naturaleza a tu manera.</p>
+    </div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-img-wrap">
+          <img class="card-img" src="img/grupo_domos.jpg" alt="Domo Glamping" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="card-badge">Más solicitado</span>
+          <h3 class="card-title">Domo Glamping</h3>
+          <p class="card-desc">Nuestros domos geodésicos te ofrecen cama cómoda, ropa de cama premium y vista panorámica al cielo nocturno desde la cúpula.</p>
+          <div class="card-features">
+            <span class="feature-tag">Cama doble</span>
+            <span class="feature-tag">Vista estrellas</span>
+            <span class="feature-tag">Iluminación LED</span>
+            <span class="feature-tag">Hasta 2 personas</span>
+          </div>
+          <div class="card-footer">
+            <div class="card-price">Consultar <span>/ noche</span></div>
+            <a href="https://wa.me/573204201013?text=Hola!%20Quiero%20reservar%20el%20Domo%20Glamping%20en%20Culumpulos%20Gramalote%20%F0%9F%8C%BF" target="_blank" class="btn-reservar">Reservar </a>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img-wrap">
+          <img class="card-img" src="img/noche_amigos.jpg" alt="Zona de Camping" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="card-badge">Aventura</span>
+          <h3 class="card-title">Zona Camping</h3>
+          <p class="card-desc">Trae tu carpa y acampa en nuestras zonas verdes habilitadas, con acceso a servicios, fogata comunitaria y toda la magia de la montaña.</p>
+          <div class="card-features">
+            <span class="feature-tag">Carpa propia</span>
+            <span class="feature-tag">Baños compartidos</span>
+            <span class="feature-tag">Fogata</span>
+            <span class="feature-tag">Grupos bienvenidos</span>
+          </div>
+          <div class="card-footer">
+            <div class="card-price">Consultar <span>/ persona</span></div>
+            <a href="https://wa.me/573204201013?text=Hola!%20Quiero%20info%20sobre%20la%20Zona%20de%20Camping%20en%20Gramalote%20%F0%9F%8F%95%EF%B8%8F" target="_blank" class="btn-reservar">Reservar </a>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img-wrap">
+          <img class="card-img" src="img/gramalote_aereo.jpg" alt="Plan Romántico" loading="lazy">
+        </div>
+        <div class="card-body">
+          <span class="card-badge">Parejas</span>
+          <h3 class="card-title">Plan Romántico</h3>
+          <p class="card-desc">Domo con detalles especiales, decoración floral, fogata privada y el atardecer desde las alturas de Gramalote. Una experiencia que no olvidarán.</p>
+          <div class="card-features">
+            <span class="feature-tag">Domo decorado</span>
+            <span class="feature-tag">Fogata privada</span>
+            <span class="feature-tag">Decoración floral</span>
+            <span class="feature-tag">Solo parejas</span>
+          </div>
+          <div class="card-footer">
+            <div class="card-price">Consultar <span>/ noche</span></div>
+            <a href="https://wa.me/573204201013?text=Hola!%20Quiero%20el%20Plan%20Rom%C3%A1ntico%20%F0%9F%92%91%20en%20Glamping%20Culumpulos%20Gramalote" target="_blank" class="btn-reservar">Reservar </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experiencias">
+  <div class="exp-inner">
+    <div>
+      <p class="section-label">Lo que vivirás</p>
+      <h2 class="section-title">Más que dormir,<br><em>vivir</em> la naturaleza</h2>
+    </div>
+    <div class="exp-grid">
+      <div class="exp-item">
+        <div class="exp-bg" style="background-image: url('img/gramalote_aereo.jpg')"></div>
+        <div class="exp-content">
+          <h4 class="exp-name">Atardeceres únicos</h4>
+          <p class="exp-desc">El horizonte de Norte de Santander te regala colores únicos. Despierta con el sol naciendo entre las montañas.</p>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-bg" style="background-image: url('img/noche_amigos.jpg')"></div>
+        <div class="exp-content">
+          <h4 class="exp-name">Fogatas y asados</h4>
+          <p class="exp-desc">Noches alrededor del fuego compartiendo historias y preparando los mejores asados bajo las estrellas.</p>
+        </div>
+      </div>
+      <div class="exp-item text-only">
+        <div class="exp-content">
+          <h4 class="exp-name">Cielo estrellado</h4>
+          <p class="exp-desc">Lejos de la contaminación lumínica, la Vía Láctea se despliega sobre Gramalote como un espectáculo privado.</p>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-bg" style="background-image: url('img/cuatrimoto_1.jpg')"></div>
+        <div class="exp-content">
+          <h4 class="exp-name">Rutas en Cuatrimoto</h4>
+          <p class="exp-desc">Aventura sobre ruedas recorriendo las montañas y senderos de Gramalote llenos de adrenalina.</p>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-bg" style="background-image: url('img/grupo_domos.jpg')"></div>
+        <div class="exp-content">
+          <h4 class="exp-name">Fotografía natural</h4>
+          <p class="exp-desc">Cada rincón es una postal. Flores silvestres, niebla matutina y paisajes que llenarán tu feed.</p>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-bg" style="background-image: url('img/cuatrimoto_2.jpg')"></div>
+        <div class="exp-content">
+          <h4 class="exp-name">Desconexión total</h4>
+          <p class="exp-desc">Olvida el estrés de la ciudad. Aquí el tiempo corre diferente, más lento, más tuyo, más real.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="galeria" class="galeria">
+  <div class="galeria-inner">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 0.5rem;">
+      <div>
+        <p class="section-label">Galería</p>
+        <h2 class="section-title">Un vistazo al <em>paraíso</em></h2>
+      </div>
+      <a href="https://www.instagram.com/glampingramalote/" target="_blank" class="btn-outline">Ver más fotos</a>
+    </div>
+    <div class="galeria-grid">
+      <div class="galeria-item"><img src="img/noche_amigos.jpg" alt="Amigos de noche en glamping" loading="lazy"></div>
+      <div class="galeria-item"><img src="img/cuatrimoto_1.jpg" alt="Ruta en cuatrimoto" loading="lazy"></div>
+      <div class="galeria-item"><img src="img/cuatrimoto_2.jpg" alt="Aventura cuatrimoto" loading="lazy"></div>
+      <div class="galeria-item"><img src="img/gramalote_aereo.jpg" alt="Vista aerea Gramalote" loading="lazy"></div>
+      <div class="galeria-item"><img src="img/grupo_domos.jpg" alt="Grupo en domos glamping" loading="lazy"></div>
+    </div>
+    <div class="galeria-cta">
+      <a href="https://www.instagram.com/glampingramalote/" target="_blank">Seguir en Instagram @glampingramalote ↗</a>
+    </div>
+  </div>
+</section>
+
+<section id="reservar" class="reserva">
+  <div class="reserva-inner">
+    <div>
+      <p class="section-label">Contáctanos</p>
+      <h2 class="section-title">¿Listo para<br><em>escapar</em>?</h2>
+      <p class="section-text">Escríbenos por WhatsApp, llámanos o contáctanos por Instagram. Te responderemos con disponibilidad, tarifas y cómo llegar.</p>
+      <div class="contact-links" style="margin-top: 2.5rem;">
+        <a href="https://wa.me/573204201013?text=Hola!%20Quiero%20hacer%20una%20reserva%20en%20Glamping%20Culumpulos%20Gramalote%20%F0%9F%8C%BF" target="_blank" class="contact-link">
+          <div class="contact-link-icon icon-wa"></div>
+          <div class="contact-link-info"><strong>WhatsApp</strong><span>320-4201013 · Respuesta rápida</span></div>
+        </a>
+        <a href="https://www.instagram.com/glampingramalote/" target="_blank" class="contact-link">
+          <div class="contact-link-icon icon-ig"></div>
+          <div class="contact-link-info"><strong>Instagram</strong><span>@glampingramalote · DM directo</span></div>
+        </a>
+        <a href="tel:+573204201013" class="contact-link">
+          <div class="contact-link-icon icon-tel"></div>
+          <div class="contact-link-info"><strong>Llamada directa</strong><span>320-4201013 · Nuevo Gramalote, N. de S.</span></div>
+        </a>
+      </div>
+    </div>
+    <div class="form-box">
+      <h3 class="form-title">Solicitar Reserva</h3>
+      <p class="form-sub">Completa el formulario y te enviamos info por WhatsApp</p>
+      <div class="form-row">
+        <div class="form-group"><label>Nombre completo</label><input type="text" id="nombre" placeholder="Tu nombre"></div>
+        <div class="form-group"><label>WhatsApp</label><input type="tel" id="telefono" placeholder="300 000 0000"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Fecha de llegada</label><input type="date" id="llegada"></div>
+        <div class="form-group"><label>Fecha de salida</label><input type="date" id="salida"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipo de hospedaje</label>
+          <select id="tipo">
+            <option value="">Seleccionar...</option>
+            <option value="Domo Glamping">Domo Glamping</option>
+            <option value="Zona Camping">Zona Camping</option>
+            <option value="Plan Romántico">Plan Romántico</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Número de personas</label>
+          <select id="personas">
+            <option value="1 persona">1 persona</option>
+            <option value="2 personas" selected>2 personas</option>
+            <option value="3 personas">3 personas</option>
+            <option value="4 personas">4 personas</option>
+            <option value="Grupo +5">Grupo +5</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Mensaje adicional (opcional)</label><textarea id="mensaje" placeholder="Algún detalle especial o pregunta..."></textarea></div>
+      <button class="whatsapp-btn" onclick="enviarWhatsApp()">Enviar solicitud por WhatsApp</button>
+      <p class="form-note">Te responderemos en menos de 24 horas </p>
+    </div>
+  </div>
+</section>
+
+<section id="ubicacion" class="ubicacion">
+  <div class="ubi-inner">
+    <div>
+      <p class="section-label">Cómo llegar</p>
+      <h2 class="section-title">Nos encuentras en<br><em>Nuevo Gramalote</em></h2>
+      <p class="section-text">Estamos en el hermoso Nuevo Gramalote, Norte de Santander — el primer pueblo moderno de Colombia, rodeado de naturaleza, historia y paisajes únicos.</p>
+      <p class="section-text" style="margin-top:1rem;">Desde Cúcuta: aprox. 2 horas por la vía a Ocaña. Pregúntanos detalles exactos por WhatsApp.</p>
+      <a href="https://wa.me/573204201013?text=Hola!%20Necesito%20indicaciones%20para%20llegar%20al%20Glamping%20Culumpulos%20%F0%9F%97%BA%EF%B8%8F" target="_blank" class="btn-primary" style="margin-top: 2rem; display: inline-flex;">Pedir indicaciones por WhatsApp</a>
+    </div>
+    <div class="map-placeholder">
+      <iframe src="https://maps.google.com/maps?q=Nuevo+Gramalote+Norte+de+Santander+Colombia&t=&z=13&ie=UTF8&iwloc=&output=embed" title="Mapa Nuevo Gramalote" loading="lazy" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Glamping <span>Culumpulos</span></div>
+        <p class="footer-tagline">Camping y Glamping en Nuevo Gramalote,<br>Norte de Santander, Colombia.<br>Donde la naturaleza te abraza.</p>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/glampingramalote/" target="_blank" class="social-link" title="Instagram"></a>
+          <a href="https://wa.me/573204201013" target="_blank" class="social-link" title="WhatsApp"></a>
+          <a href="tel:+573204201013" class="social-link" title="Llamar"></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Hospedajes</h4>
+        <ul>
+          <li><a href="#hospedajes">Domo Glamping</a></li>
+          <li><a href="#hospedajes">Zona Camping</a></li>
+          <li><a href="#hospedajes">Plan Romántico</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><span>320-4201013</span></li>
+          <li><a href="https://www.instagram.com/glampingramalote/" target="_blank">@glampingramalote</a></li>
+          <li><span>Nuevo Gramalote, Norte de Santander</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Glamping Culumpulos Gramalote · Todos los derechos reservados</p>
+      <a href="https://www.instagram.com/glampingramalote/" target="_blank">Instagram ↗</a>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/573204201013?text=Hola!%20Vi%20la%20p%C3%A1gina%20web%20y%20quiero%20reservar%20en%20Glamping%20Culumpulos%20Gramalote%20%F0%9F%8C%BF" target="_blank" class="float-wa" title="WhatsApp"></a>
+
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+
+<script>
+// ── Registrar plugin ──────────────────────────────────────────────
+gsap.registerPlugin(ScrollTrigger);
+
+// ── Animación inicial del HERO ────────────────────────────────────
+gsap.set(['.hero-badge', '.hero h1', '.hero-sub', '.hero-location', '.hero-cta', '.hero-scroll'], { autoAlpha: 0, y: 30 });
+gsap.to('.hero-badge',    { autoAlpha: 1, y: 0, duration: 0.8, delay: 0.3, ease: 'power3.out' });
+gsap.to('.hero h1',       { autoAlpha: 1, y: 0, duration: 1,   delay: 0.55, ease: 'power3.out' });
+gsap.to('.hero-sub',      { autoAlpha: 1, y: 0, duration: 0.8, delay: 0.75, ease: 'power3.out' });
+gsap.to('.hero-location', { autoAlpha: 1, y: 0, duration: 0.7, delay: 0.9,  ease: 'power3.out' });
+gsap.to('.hero-cta',      { autoAlpha: 1, y: 0, duration: 0.7, delay: 1.05, ease: 'power3.out' });
+gsap.to('.hero-scroll',   { autoAlpha: 1, y: 0, duration: 0.6, delay: 1.3,  ease: 'power3.out' });
+
+// ── Canvas Frame Sequence (Scroll Effect) ─────────────────────────
+const heroCanvas = document.getElementById("hero-canvas");
+const heroCtx = heroCanvas.getContext("2d");
+const frameCount = 40;
+const currentFrame = index => `img/frames/${(index + 1).toString().padStart(2, '0')}.png`;
+
+const images = [];
+const frames = { frame: frameCount - 1 };
+
+for (let i = 0; i < frameCount; i++) {
+  const img = new Image();
+  img.src = currentFrame(i);
+  images.push(img);
+}
+
+function resizeCanvas() {
+  heroCanvas.width = window.innerWidth;
+  heroCanvas.height = window.innerHeight;
+  render();
+}
+
+function render() {
+  heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+  const img = images[Math.round(frames.frame)];
+  if(!img || !img.complete) return;
+  
+  const hRatio = heroCanvas.width / img.width;
+  const vRatio = heroCanvas.height / img.height;
+  const ratio = Math.max(hRatio, vRatio);
+
+  const drawWidth = img.width * ratio;
+  const drawHeight = img.height * ratio;
+  const centerShift_x = (heroCanvas.width - drawWidth) / 2;
+  const centerShift_y = (heroCanvas.height - drawHeight) / 2;  
+  
+  heroCtx.drawImage(img, 0,0, img.width, img.height,
+                    centerShift_x, centerShift_y, drawWidth, drawHeight);
+}
+
+if (images[frameCount - 1].complete) {
+  resizeCanvas();
+} else {
+  images[frameCount - 1].onload = resizeCanvas;
+}
+window.addEventListener("resize", resizeCanvas);
+
+// ══════════════════════════════════════════════════════════════════
+//  CINEMATIC SCROLL SYSTEM — Estilo Apple
+//  Todas las animaciones están AMARRADAS al progreso del scroll
+//  (scrub), NO basadas en tiempo. Usa solo transform/opacity/filter
+//  para garantizar 60fps con aceleración por hardware.
+//
+//  CONFIGURACIÓN RÁPIDA:
+//  • scrub: 0.8  → suavidad de interpolación (0=instantáneo, 2=muy lento)
+//  • start/end  → marcadores de inicio/fin del efecto
+//  • pin: true   → fija la sección mientras se anima
+// ══════════════════════════════════════════════════════════════════
+
+// ─── [1] HERO: Pin + Frame Sequence + Texto Fade-out con Blur ────
+// El hero se fija en pantalla. Los frames avanzan con el scroll.
+// El texto desaparece progresivamente con blur + translate hacia arriba.
+const HERO_SCRUB = 0.8;       // ← MODIFICABLE: suavidad del scrub del hero
+const HERO_PIN_DISTANCE = '500%'; // ← MODIFICABLE: distancia total del pin
+
+let tlHero = gsap.timeline({
+  scrollTrigger: {
+    trigger: ".hero",
+    start: "top top",          // ← MODIFICABLE: cuándo empieza el pin
+    end: "+=" + HERO_PIN_DISTANCE,
+    scrub: HERO_SCRUB,
+    pin: true,
+    anticipatePin: 1,          // evita saltos al entrar en pin
+  }
+});
+
+// Fase 1 (0→0.6): Efecto "Amanecer". Transición limpia de noche a día puro.
+tlHero
+  // El fondo oscuro se ilumina a blanco puro
+  .to('.hero', { background: '#ffffff', ease: 'power2.inOut', duration: 0.6 }, 0.1)
+  // Las estrellas desaparecen suavemente
+  .to('#star-canvas', { autoAlpha: 0, ease: 'power2.inOut', duration: 0.5 }, 0.1)
+  // El domo aparece ya con el brillo ajustado para que su fondo gris sea blanco puro desde el principio
+  .fromTo('#hero-canvas', 
+    { opacity: 0, scale: 1.05, filter: 'blur(4px) brightness(1.08)' },
+    { opacity: 1, scale: 1, filter: 'blur(0px) brightness(1.08)', ease: 'power2.inOut', duration: 0.6, immediateRender: false }, 0.1)
+  .to(frames, {
+    frame: 0,
+    snap: "frame",
+    ease: "none",
+    onUpdate: render,
+    duration: 2
+  }, 0)
+  // Texto principal se eleva y desenfoca
+  .fromTo('.hero h1',
+    { y: 0, autoAlpha: 1, filter: 'blur(0px)' },
+    { y: -120, autoAlpha: 0, filter: 'blur(12px)', ease: 'power2.in', duration: 1, immediateRender: false }, 0)
+  // Elementos secundarios desaparecen más rápido
+  .fromTo(['.hero-badge', '.hero-sub', '.hero-location', '.hero-cta', '.hero-scroll'],
+    { y: 0, autoAlpha: 1, filter: 'blur(0px)' },
+    { y: -60, autoAlpha: 0, filter: 'blur(6px)', ease: 'power2.in', duration: 0.7, immediateRender: false }, 0)
+  // Fase 2 (0.4→1.2): Nombre de empresa aparece cinematográficamente
+  .fromTo('.hero-company-name', {
+    autoAlpha: 0,
+    scale: 0.9,
+    filter: 'blur(20px)',
+  }, {
+    autoAlpha: 1,
+    scale: 1,
+    filter: 'blur(0px)',
+    ease: 'power1.out',
+    duration: 0.8
+  }, 0.4)
+  // Fase 3 (1.5→2): Nombre desaparece al final del hero
+  .to('.hero-company-name', {
+    autoAlpha: 0,
+    scale: 1.15,
+    filter: 'blur(10px)',
+    ease: 'power2.in',
+    duration: 0.5
+  }, 1.5)
+
+  // Fase 4: El canvas se reduce de tamaño y se desvanece, revelando la imagen completa del domo
+  .to('#hero-canvas', {
+    scale: 0.6,
+    autoAlpha: 0,
+    ease: 'power2.inOut',
+    duration: 1
+  }, 1.8)
+  .fromTo('#hero-final-img',
+    { scale: 1.05, autoAlpha: 0 },
+    { scale: 0.6, autoAlpha: 1, ease: 'power2.inOut', duration: 1 }, 1.8)
+  // Fase 4 (2.0→2.8): Aparecen las características del domo estilo Apple
+  .fromTo('.feature-popup', {
+    y: 40, autoAlpha: 0, scale: 0.95
+  }, {
+    y: 0, autoAlpha: 1, scale: 1,
+    ease: 'power2.out',
+    duration: 0.8,
+    stagger: 0.3,
+    immediateRender: false
+  }, 2.0)
+  // Conectores (Líneas)
+  .fromTo('.connector-line', {
+    scaleX: 0
+  }, {
+    scaleX: 1,
+    ease: 'power2.out',
+    duration: 0.6,
+    stagger: 0.3,
+    immediateRender: false
+  }, 2.2)
+  // Conectores (Puntos luminosos)
+  .fromTo('.connector-dot', {
+    scale: 0, autoAlpha: 0
+  }, {
+    scale: 1, autoAlpha: 1,
+    ease: 'back.out(2)',
+    duration: 0.4,
+    stagger: 0.3,
+    immediateRender: false
+  }, 2.6)
+  // Fase 5 (3.5→4.0): Las características desaparecen suavemente antes de salir
+  .to('.feature-popup', {
+    y: -40, autoAlpha: 0, scale: 1.05,
+    ease: 'power2.in',
+    duration: 0.6,
+    stagger: 0.1
+  }, 3.8);
+
+// ─── [2] STRIP MARQUEE: Entrada suave con scrub ──────────────────
+gsap.from('.strip-track', {
+  autoAlpha: 0,
+  y: 30,
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '.strip',
+    start: 'top 95%',           // ← MODIFICABLE
+    end: 'top 70%',
+    scrub: 0.5,                 // ← MODIFICABLE
+  }
+});
+
+// ─── [3] ABOUT / NOSOTROS: Pin de imagen + Texto reveal progresivo ─
+// La imagen queda sticky mientras los textos se revelan uno a uno
+// con efecto blur-to-clear + slide-up, amarrados al scroll.
+const ABOUT_SCRUB = 1;          // ← MODIFICABLE: suavidad del about
+
+// Imagen: parallax scale-down sutil mientras se hace scroll
+gsap.fromTo('.about-img-wrap img', {
+  scale: 1.12,
+  filter: 'brightness(0.85)',
+}, {
+  scale: 1,
+  filter: 'brightness(1)',
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#nosotros',
+    start: 'top 80%',            // ← MODIFICABLE
+    end: 'bottom 20%',
+    scrub: ABOUT_SCRUB,
+  }
+});
+
+// Imagen entra desde la izquierda con scrub
+gsap.from('.about-img-wrap', {
+  x: -80,
+  autoAlpha: 0,
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#nosotros',
+    start: 'top 85%',
+    end: 'top 50%',
+    scrub: ABOUT_SCRUB,
+  }
+});
+
+// Cada elemento de texto se revela en secuencia con blur + slide
+gsap.utils.toArray('.about-grid > div:last-child > *').forEach((el, i) => {
+  gsap.fromTo(el, {
+    autoAlpha: 0,
+    y: 50,
+    filter: 'blur(8px)',
+  }, {
+    autoAlpha: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger: '#nosotros',
+      // Cada elemento empieza un poco más tarde (stagger por posición)
+      start: `top ${75 - i * 8}%`,   // ← MODIFICABLE: stagger visual
+      end: `top ${45 - i * 8}%`,
+      scrub: ABOUT_SCRUB,
+    }
+  });
+});
+
+// ─── [4] CONTADORES ANIMADOS ─────────────────────────────────────
+const counters = [
+  { el: document.querySelector('.stat-box:nth-child(1) .stat-num'), target: 280, suffix: '+', decimals: 0 },
+  { el: document.querySelector('.stat-box:nth-child(2) .stat-num'), target: 5.6, suffix: 'k', decimals: 1 },
+  { el: document.querySelector('.stat-box:nth-child(3) .stat-num'), target: 12,  suffix: '°C', decimals: 0 },
+  { el: document.querySelector('.stat-box:nth-child(4) .stat-num'), target: 100, suffix: '%', decimals: 0 },
+];
+ScrollTrigger.create({
+  trigger: '.about-stats', start: 'top 80%',
+  once: true,
+  onEnter: () => {
+    counters.forEach(c => {
+      if (!c.el) return;
+      gsap.to({ val: 0 }, {
+        val: c.target, duration: 2, ease: 'power2.out',
+        onUpdate() { c.el.textContent = parseFloat(this.targets()[0].val).toFixed(c.decimals) + c.suffix; }
+      });
+    });
+  }
+});
+
+// Stat boxes: entrada suave (sin scrub para evitar que crezcan/decrezcan)
+gsap.utils.toArray('.stat-box').forEach((box, i) => {
+  gsap.fromTo(box, {
+    autoAlpha: 0,
+    y: 40,
+    scale: 0.9,
+  }, {
+    autoAlpha: 1,
+    y: 0,
+    scale: 1,
+    duration: 0.8,
+    ease: 'power2.out',
+    delay: i * 0.15,
+    scrollTrigger: {
+      trigger: '.about-stats',
+      start: 'top 85%',
+      toggleActions: 'play none none reverse'
+    }
+  });
+});
+
+// ─── [5] HOSPEDAJES: Título pin + Cards stagger cinematográfico ──
+const CARDS_SCRUB = 0.8;        // ← MODIFICABLE
+
+// Header de hospedajes: reveal con blur
+gsap.fromTo('.hospedajes-header', {
+  autoAlpha: 0,
+  y: 60,
+  filter: 'blur(10px)',
+}, {
+  autoAlpha: 1,
+  y: 0,
+  filter: 'blur(0px)',
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#hospedajes',
+    start: 'top 80%',
+    end: 'top 50%',
+    scrub: CARDS_SCRUB,
+  }
+});
+
+// Cards: cada una entra con delay escalonado + scale + rotación sutil
+gsap.utils.toArray('.card').forEach((card, i) => {
+  gsap.fromTo(card, {
+    autoAlpha: 0,
+    y: 100,
+    scale: 0.88,
+    rotateX: 8,
+    filter: 'blur(6px)',
+  }, {
+    autoAlpha: 1,
+    y: 0,
+    scale: 1,
+    rotateX: 0,
+    filter: 'blur(0px)',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.cards-grid',
+      start: `top ${85 - i * 8}%`,   // ← MODIFICABLE: stagger de cards
+      end: `top ${50 - i * 8}%`,
+      scrub: CARDS_SCRUB,
+    }
+  });
+});
+
+// Tilt 3D interactivo en cards (se mantiene - no es scroll)
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width  - 0.5) * 14;
+    const y = ((e.clientY - r.top)  / r.height - 0.5) * -14;
+    gsap.to(card, { rotateY: x, rotateX: y, transformPerspective: 900, duration: 0.3, ease: 'power2.out' });
+  });
+  card.addEventListener('mouseleave', () => {
+    gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.5, ease: 'elastic.out(1,0.7)' });
+  });
+});
+
+// ─── [6] EXPERIENCIAS: Scale-in progresivo con scrub ─────────────
+const EXP_SCRUB = 0.7;          // ← MODIFICABLE
+
+// Título de experiencias
+gsap.fromTo('.exp-inner > div:first-child', {
+  autoAlpha: 0,
+  y: 50,
+  filter: 'blur(8px)',
+}, {
+  autoAlpha: 1,
+  y: 0,
+  filter: 'blur(0px)',
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#experiencias',
+    start: 'top 80%',
+    end: 'top 55%',
+    scrub: EXP_SCRUB,
+  }
+});
+
+// Cada item de experiencia con scale + fade + stagger por posición
+gsap.utils.toArray('.exp-item').forEach((item, i) => {
+  gsap.fromTo(item, {
+    autoAlpha: 0,
+    scale: 0.82,
+    y: 50,
+    filter: 'blur(5px)',
+  }, {
+    autoAlpha: 1,
+    scale: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.exp-grid',
+      start: `top ${88 - i * 6}%`,    // ← MODIFICABLE: stagger
+      end: `top ${58 - i * 6}%`,
+      scrub: EXP_SCRUB,
+    }
+  });
+});
+
+// ─── [7] GALERÍA: Parallax reveal + scale individual ─────────────
+const GAL_SCRUB = 0.9;           // ← MODIFICABLE
+
+// Título galería
+gsap.fromTo('.galeria-inner > div:first-child', {
+  autoAlpha: 0,
+  y: 40,
+  filter: 'blur(6px)',
+}, {
+  autoAlpha: 1,
+  y: 0,
+  filter: 'blur(0px)',
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#galeria',
+    start: 'top 80%',
+    end: 'top 55%',
+    scrub: GAL_SCRUB,
+  }
+});
+
+// Cada imagen de la galería aparece con scale-up + parallax vertical
+gsap.utils.toArray('.galeria-item').forEach((item, i) => {
+  gsap.fromTo(item, {
+    autoAlpha: 0,
+    scale: 0.85,
+    y: 60 + (i * 15),              // parallax diferencial
+  }, {
+    autoAlpha: 1,
+    scale: 1,
+    y: 0,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.galeria-grid',
+      start: `top ${90 - i * 6}%`,
+      end: `top ${55 - i * 6}%`,
+      scrub: GAL_SCRUB,
+    }
+  });
+});
+
+// Parallax sutil en las imágenes de galería (efecto profundidad)
+gsap.utils.toArray('.galeria-item img').forEach((img, i) => {
+  gsap.fromTo(img, {
+    scale: 1.15,
+  }, {
+    scale: 1,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: img.parentElement,
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: true,
+    }
+  });
+});
+
+// ─── [8] RESERVA: Split reveal izquierda/derecha ─────────────────
+const RES_SCRUB = 0.8;           // ← MODIFICABLE
+
+// Columna izquierda (contacto)
+gsap.fromTo('#reservar > .reserva-inner > div:first-child', {
+  autoAlpha: 0,
+  x: -80,
+  filter: 'blur(8px)',
+}, {
+  autoAlpha: 1,
+  x: 0,
+  filter: 'blur(0px)',
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#reservar',
+    start: 'top 75%',
+    end: 'top 40%',
+    scrub: RES_SCRUB,
+  }
+});
+
+// Links de contacto stagger
+gsap.utils.toArray('.contact-link').forEach((link, i) => {
+  gsap.fromTo(link, {
+    autoAlpha: 0,
+    x: -50,
+    filter: 'blur(4px)',
+  }, {
+    autoAlpha: 1,
+    x: 0,
+    filter: 'blur(0px)',
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '.contact-links',
+      start: `top ${82 - i * 7}%`,
+      end: `top ${58 - i * 7}%`,
+      scrub: RES_SCRUB,
+    }
+  });
+});
+
+// Formulario entra desde la derecha
+gsap.fromTo('.form-box', {
+  autoAlpha: 0,
+  x: 80,
+  rotateY: -5,
+  filter: 'blur(8px)',
+}, {
+  autoAlpha: 1,
+  x: 0,
+  rotateY: 0,
+  filter: 'blur(0px)',
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#reservar',
+    start: 'top 70%',
+    end: 'top 35%',
+    scrub: RES_SCRUB,
+  }
+});
+
+// ─── [9] UBICACIÓN: Map reveal con scale ─────────────────────────
+gsap.fromTo('.ubi-inner > div:first-child', {
+  autoAlpha: 0,
+  y: 50,
+  filter: 'blur(6px)',
+}, {
+  autoAlpha: 1,
+  y: 0,
+  filter: 'blur(0px)',
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#ubicacion',
+    start: 'top 78%',
+    end: 'top 50%',
+    scrub: 0.8,
+  }
+});
+
+gsap.fromTo('.map-placeholder', {
+  autoAlpha: 0,
+  scale: 0.9,
+  filter: 'blur(4px)',
+}, {
+  autoAlpha: 1,
+  scale: 1,
+  filter: 'blur(0px)',
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '.map-placeholder',
+    start: 'top 85%',
+    end: 'top 55%',
+    scrub: 0.8,
+  }
+});
+
+// ─── [10] FOOTER: Reveal progresivo ──────────────────────────────
+gsap.utils.toArray('.footer-top > *').forEach((el, i) => {
+  gsap.fromTo(el, {
+    autoAlpha: 0,
+    y: 40,
+  }, {
+    autoAlpha: 1,
+    y: 0,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: 'footer',
+      start: `top ${92 - i * 5}%`,
+      end: `top ${72 - i * 5}%`,
+      scrub: 0.6,
+    }
+  });
+});
+
+function enviarWhatsApp() {
+  const nombre = document.getElementById('nombre').value.trim();
+  const telefono = document.getElementById('telefono').value.trim();
+  const llegada = document.getElementById('llegada').value;
+  const salida = document.getElementById('salida').value;
+  const tipo = document.getElementById('tipo').value;
+  const personas = document.getElementById('personas').value;
+  const mensaje = document.getElementById('mensaje').value.trim();
+
+  if (!nombre) { alert('Por favor ingresa tu nombre 😊'); return; }
+  if (!llegada || !salida) { alert('Por favor selecciona las fechas '); return; }
+  if (!tipo) { alert('Por favor elige el tipo de hospedaje '); return; }
+
+  const fmt = d => { if (!d) return ''; const [y,m,day] = d.split('-'); return day+'/'+m+'/'+y; };
+
+  let msg = '*Solicitud de Reserva - Glamping Culumpulos Gramalote*\n\n';
+  msg += '*Nombre:* ' + nombre + '\n';
+  if (telefono) msg += '*WhatsApp:* ' + telefono + '\n';
+  msg += '*Llegada:* ' + fmt(llegada) + '\n';
+  msg += '*Salida:* ' + fmt(salida) + '\n';
+  msg += '*Hospedaje:* ' + tipo + '\n';
+  msg += '*Personas:* ' + personas + '\n';
+  if (mensaje) msg += '*Notas:* ' + mensaje + '\n';
+  msg += '\n¡Hola! Quiero confirmar disponibilidad ';
+
+  window.open('https://wa.me/573204201013?text=' + encodeURIComponent(msg), '_blank');
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    const t = document.querySelector(this.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').style.padding = window.scrollY > 80 ? '0.8rem 3rem' : '1.2rem 3rem';
+  const prog = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('scroll-progress').style.width = prog + '%';
+  const bt = document.getElementById('back-top');
+  if (window.scrollY > 500) bt.classList.add('visible'); else bt.classList.remove('visible');
+});
+
+
+// ── Magic Card Spotlight ───────────────────────────────────────────
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+  });
+});
+
+// ── Mobile Menu ────────────────────────────────────────────────────
+function toggleMobileMenu() {
+  const m = document.getElementById('mobile-menu');
+  const h = document.getElementById('hamburger');
+  m.classList.toggle('open'); h.classList.toggle('open');
+  document.body.style.overflow = m.classList.contains('open') ? 'hidden' : '';
+}
+function closeMobileMenu() {
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── Star Particles ─────────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('star-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+  function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+  resize(); window.addEventListener('resize', resize);
+  for (let i = 0; i < 160; i++) {
+    stars.push({ x: Math.random(), y: Math.random(), r: Math.random() * 1.5 + 0.3, a: Math.random(), da: (Math.random() - 0.5) * 0.008 + 0.003 });
+  }
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      s.a += s.da; if (s.a > 1 || s.a < 0) s.da *= -1;
+      ctx.beginPath(); ctx.arc(s.x * canvas.width, s.y * canvas.height, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,245,200,' + Math.max(0, Math.min(1, s.a)) + ')';
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── Lightbox ───────────────────────────────────────────────────────
+const lbImgs = [];
+let lbIdx = 0;
+document.querySelectorAll('.galeria-item img').forEach((img, i) => {
+  lbImgs.push({ src: img.src, alt: img.alt });
+  img.parentElement.addEventListener('click', () => openLightbox(i));
+});
+function openLightbox(i) {
+  lbIdx = i;
+  document.getElementById('lightbox-img').src = lbImgs[i].src;
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+function lbNext() { lbIdx = (lbIdx + 1) % lbImgs.length; document.getElementById('lightbox-img').src = lbImgs[lbIdx].src; }
+function lbPrev() { lbIdx = (lbIdx - 1 + lbImgs.length) % lbImgs.length; document.getElementById('lightbox-img').src = lbImgs[lbIdx].src; }
+document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); if (e.key === 'ArrowRight') lbNext(); if (e.key === 'ArrowLeft') lbPrev(); });
+
+// Recalcular ScrollTrigger cuando TODAS las imágenes hayan cargado
+// Esto evita el problema del espacio en blanco gigante al hacer scroll rápido hacia arriba
+window.addEventListener('load', () => {
+  ScrollTrigger.refresh();
+});
+</script>
+</body>
+</html>
