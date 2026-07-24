@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self';">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Panel de Administración - Glamping Culumpulos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --verde-oscuro: #1A3C34;
+      --verde-claro: #2C6E63;
+      --ambar: #D4A44A;
+      --crema: #F9F6F0;
+      --crema-oscuro: #EAE3D5;
+      --carbon: #2B2B2B;
+      --gris-calido: #7A756C;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--crema);
+      color: var(--carbon);
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: var(--verde-oscuro);
+      color: #fff;
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 500;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      min-width: 700px;
+    }
+    th, td {
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid var(--crema-oscuro);
+    }
+    th {
+      background: #faf8f5;
+      color: var(--gris-calido);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+    td { font-size: 0.85rem; color: var(--carbon); }
+    .status {
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .status.pendiente { background: #fff3cd; color: #856404; }
+    .status.pagado { background: #d4edda; color: #155724; }
+    .status.cancelado { background: #f8d7da; color: #721c24; }
+    .btn {
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+    .btn-approve { background: var(--verde-claro); color: #fff; }
+    .btn-approve:hover { background: var(--verde-oscuro); }
+    .btn-cancel { background: #dc3545; color: #fff; }
+    .btn-cancel:hover { background: #c82333; }
+    .btn-delete { background: transparent; color: #dc3545; border: 1px solid #dc3545; }
+    .btn-delete:hover { background: #dc3545; color: #fff; }
+    .btn-refresh { background: #fff; color: var(--verde-oscuro); font-weight: 600; }
+    .btn-logout { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.4); margin-left: 0.5rem; }
+    .actions { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .loader { text-align: center; padding: 3rem; color: var(--gris-calido); }
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .metric-card {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      border-left: 4px solid var(--verde-claro);
+    }
+    .metric-title {
+      font-size: 0.85rem;
+      color: var(--gris-calido);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--verde-oscuro);
+    }
+    #login-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(13, 27, 30, 0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .login-box {
+      background: #fff;
+      padding: 2.5rem;
+      border-radius: 16px;
+      width: min(380px, 92vw);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .login-box h2 { margin: 0 0 0.5rem; color: var(--verde-oscuro); font-size: 1.2rem; }
+    .login-box p { margin: 0 0 1.5rem; color: var(--gris-calido); font-size: 0.85rem; }
+    .login-box input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--crema-oscuro);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    .login-box input:focus { outline: 2px solid var(--verde-claro); border-color: transparent; }
+    .login-error { color: #dc3545; font-size: 0.8rem; margin-bottom: 0.8rem; display: none; }
+    .login-box .btn { width: 100%; padding: 0.75rem; background: var(--verde-claro); color: #fff; font-size: 0.9rem; }
+    #app-content { display: none; }
+  </style>
+</head>
+<body>
+
+  <div id="login-overlay">
+    <div class="login-box">
+      <h2>Acceso administrativo</h2>
+      <p>Panel restringido. Ingresa la contraseña de administrador.</p>
+      <div id="login-error" class="login-error">Contraseña incorrecta.</div>
+      <form id="login-form" autocomplete="off">
+        <input type="password" id="admin-password" placeholder="Contraseña" maxlength="128" required autofocus>
+        <button type="submit" class="btn">Ingresar</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="app-content">
+    <header>
+      <h1>Panel de Control — Glamping Culumpulos</h1>
+      <div>
+        <button class="btn btn-refresh" id="btn-refresh">Actualizar</button>
+        <button class="btn btn-logout" id="btn-logout">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-title">Reservas Totales</div>
+          <div class="metric-value" id="met-total">0</div>
+        </div>
+        <div class="metric-card" style="border-left-color: var(--ambar);">
+          <div class="metric-title">Pendientes</div>
+          <div class="metric-value" id="met-pending" style="color: var(--ambar);">0</div>
+        </div>
+        <div class="metric-card" style="border-left-color: #155724;">
+          <div class="metric-title">Pagadas (Confirmadas)</div>
+          <div class="metric-value" id="met-paid" style="color: #155724;">0</div>
+        </div>
+        <div class="metric-card" style="border-left-color: #dc3545;">
+          <div class="metric-title">Canceladas</div>
+          <div class="metric-value" id="met-cancelled" style="color: #dc3545;">0</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha Solicitud</th>
+              <th>Cliente</th>
+              <th>Hospedaje</th>
+              <th>Llegada → Salida</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <tr><td colspan="6" class="loader">Cargando reservas...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/security.js"></script>
+  <script>
+    const SEC = GlampingSecurity;
+    const SUPABASE_URL = 'https://jezkrdxmpkttckzxfayq.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImplemtyZHhtcGt0dGNrenhmYXlxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4MjM5MzksImV4cCI6MjEwMDM5OTkzOX0.6xTM-NGS-P_yVhbMrg6M8yJvBAwCtSk4A75u2Ev6Flc';
+
+    // Cambiar contraseña: genera nuevo hash con GlampingSecurity.sha256('TuNuevaClave')
+    const ADMIN_PASSWORD_HASH = 'b5b9e8683078d091d9bad0945084a9561dfb1c316831d4ad16809eb4f423a4e8';
+    const SESSION_KEY = 'glamping_admin_session';
+    const SESSION_TTL_MS = 8 * 60 * 60 * 1000;
+
+    function headers(extra = {}) {
+      return {
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation',
+        ...extra
+      };
+    }
+
+    function isSessionValid() {
+      const raw = sessionStorage.getItem(SESSION_KEY);
+      if (!raw) return false;
+      try {
+        const session = JSON.parse(raw);
+        return session.expires > Date.now();
+      } catch {
+        return false;
+      }
+    }
+
+    function createSession() {
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+        expires: Date.now() + SESSION_TTL_MS
+      }));
+    }
+
+    function destroySession() {
+      sessionStorage.removeItem(SESSION_KEY);
+    }
+
+    function showApp() {
+      document.getElementById('login-overlay').style.display = 'none';
+      document.getElementById('app-content').style.display = 'block';
+      fetchReservas();
+    }
+
+    function showLogin() {
+      document.getElementById('login-overlay').style.display = 'flex';
+      document.getElementById('app-content').style.display = 'none';
+    }
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const pwd = document.getElementById('admin-password').value;
+      const hash = await SEC.sha256(pwd);
+      const errEl = document.getElementById('login-error');
+      if (hash === ADMIN_PASSWORD_HASH) {
+        createSession();
+        document.getElementById('admin-password').value = '';
+        errEl.style.display = 'none';
+        showApp();
+      } else {
+        errEl.style.display = 'block';
+        document.getElementById('admin-password').value = '';
+      }
+    });
+
+    document.getElementById('btn-logout').addEventListener('click', () => {
+      destroySession();
+      showLogin();
+    });
+
+    document.getElementById('btn-refresh').addEventListener('click', fetchReservas);
+
+    function actualizarMetricas(data) {
+      document.getElementById('met-total').textContent = data.length;
+      document.getElementById('met-pending').textContent = data.filter(r => r.estado === 'pendiente').length;
+      document.getElementById('met-paid').textContent = data.filter(r => r.estado === 'pagado').length;
+      document.getElementById('met-cancelled').textContent = data.filter(r => r.estado === 'cancelado').length;
+    }
+
+    function createActionButton(label, className, onClick) {
+      const btn = document.createElement('button');
+      btn.className = 'btn ' + className;
+      btn.type = 'button';
+      btn.textContent = label;
+      btn.addEventListener('click', onClick);
+      return btn;
+    }
+
+    function renderReservaRow(reserva) {
+      const tr = document.createElement('tr');
+      const created = new Date(reserva.created_at).toLocaleString('es-CO');
+
+      const tdFecha = document.createElement('td');
+      const idSmall = document.createElement('small');
+      idSmall.style.cssText = 'color:var(--gris-calido); display:block; font-size:0.55rem; word-break:break-all;';
+      idSmall.textContent = reserva.id || '';
+      tdFecha.appendChild(idSmall);
+      tdFecha.appendChild(document.createTextNode(created));
+
+      const tdCliente = document.createElement('td');
+      const strong = document.createElement('strong');
+      strong.textContent = reserva.nombre_cliente || '—';
+      tdCliente.appendChild(strong);
+      tdCliente.appendChild(document.createElement('br'));
+      const waLink = document.createElement('a');
+      const phone = SEC.normalizePhone(reserva.telefono_cliente || '');
+      waLink.href = phone ? 'https://wa.me/57' + phone : '#';
+      waLink.target = '_blank';
+      waLink.rel = 'noopener noreferrer';
+      waLink.style.cssText = 'color:var(--verde-claro); text-decoration:none;';
+      waLink.textContent = phone ? '📱 ' + phone : '—';
+      tdCliente.appendChild(waLink);
+
+      const tdHospedaje = document.createElement('td');
+      tdHospedaje.textContent = reserva.hospedaje || '—';
+      tdHospedaje.appendChild(document.createElement('br'));
+      const personasSmall = document.createElement('small');
+      personasSmall.textContent = (reserva.personas || '—') + ' personas';
+      tdHospedaje.appendChild(personasSmall);
+
+      const tdFechas = document.createElement('td');
+      tdFechas.style.whiteSpace = 'nowrap';
+      tdFechas.appendChild(document.createTextNode(reserva.fecha_llegada || '—'));
+      tdFechas.appendChild(document.createElement('br'));
+      tdFechas.appendChild(document.createTextNode(reserva.fecha_salida || '—'));
+      tdFechas.appendChild(document.createElement('br'));
+      const nochesSmall = document.createElement('small');
+      nochesSmall.textContent = '(' + (reserva.noches || 0) + ' noches)';
+      tdFechas.appendChild(nochesSmall);
+
+      const tdEstado = document.createElement('td');
+      const statusSpan = document.createElement('span');
+      const estado = SEC.isValidEstado(reserva.estado) ? reserva.estado : 'pendiente';
+      statusSpan.className = 'status ' + estado;
+      statusSpan.textContent = estado;
+      tdEstado.appendChild(statusSpan);
+
+      const tdAcciones = document.createElement('td');
+      tdAcciones.className = 'actions';
+
+      if (!SEC.isValidUuid(reserva.id)) {
+        tdAcciones.textContent = '—';
+      } else if (reserva.estado === 'pendiente') {
+        tdAcciones.appendChild(createActionButton('Aprobar Pago', 'btn-approve', () => cambiarEstado(reserva.id, 'pagado')));
+        tdAcciones.appendChild(createActionButton('Cancelar', 'btn-cancel', () => cambiarEstado(reserva.id, 'cancelado')));
+      } else if (reserva.estado === 'pagado') {
+        tdAcciones.appendChild(createActionButton('Anular', 'btn-cancel', () => cambiarEstado(reserva.id, 'cancelado')));
+      } else {
+        tdAcciones.appendChild(createActionButton('Eliminar', 'btn-delete', () => eliminarReserva(reserva.id)));
+      }
+
+      tr.append(tdFecha, tdCliente, tdHospedaje, tdFechas, tdEstado, tdAcciones);
+      return tr;
+    }
+
+    async function fetchReservas() {
+      if (!isSessionValid()) { showLogin(); return; }
+
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = '';
+      const loaderRow = document.createElement('tr');
+      const loaderCell = document.createElement('td');
+      loaderCell.colSpan = 6;
+      loaderCell.className = 'loader';
+      loaderCell.textContent = 'Descargando reservas...';
+      loaderRow.appendChild(loaderCell);
+      tbody.appendChild(loaderRow);
+
+      try {
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/reservas?select=*&order=created_at.desc`,
+          { headers: headers() }
+        );
+
+        if (!res.ok) throw new Error('Error al cargar reservas');
+
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error('Respuesta inválida');
+
+        actualizarMetricas(data);
+        tbody.innerHTML = '';
+
+        if (data.length === 0) {
+          const emptyRow = document.createElement('tr');
+          const emptyCell = document.createElement('td');
+          emptyCell.colSpan = 6;
+          emptyCell.className = 'loader';
+          emptyCell.textContent = 'No hay reservas registradas.';
+          emptyRow.appendChild(emptyCell);
+          tbody.appendChild(emptyRow);
+          return;
+        }
+
+        data.forEach(reserva => tbody.appendChild(renderReservaRow(reserva)));
+
+      } catch (error) {
+        console.error(error);
+        tbody.innerHTML = '';
+        const errRow = document.createElement('tr');
+        const errCell = document.createElement('td');
+        errCell.colSpan = 6;
+        errCell.className = 'loader';
+        errCell.style.color = 'red';
+        errCell.textContent = 'Error de conexión. Intenta de nuevo.';
+        errRow.appendChild(errCell);
+        tbody.appendChild(errRow);
+      }
+    }
+
+    async function cambiarEstado(id, nuevoEstado) {
+      if (!isSessionValid()) { showLogin(); return; }
+      if (!SEC.isValidUuid(id) || !SEC.isValidEstado(nuevoEstado)) {
+        alert('Operación no permitida.');
+        return;
+      }
+      if (!confirm('¿Marcar esta reserva como "' + nuevoEstado.toUpperCase() + '"?')) return;
+
+      try {
+        const filter = SEC.buildEqFilter('id', id);
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/reservas?${filter}`,
+          {
+            method: 'PATCH',
+            headers: headers(),
+            body: JSON.stringify({ estado: nuevoEstado })
+          }
+        );
+
+        if (!res.ok) throw new Error('Error al actualizar');
+        fetchReservas();
+      } catch (error) {
+        alert('Error al actualizar la reserva.');
+      }
+    }
+
+    async function eliminarReserva(id) {
+      if (!isSessionValid()) { showLogin(); return; }
+      if (!SEC.isValidUuid(id)) {
+        alert('Operación no permitida.');
+        return;
+      }
+      if (!confirm('¿ELIMINAR esta reserva permanentemente?')) return;
+
+      try {
+        const filter = SEC.buildEqFilter('id', id);
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/reservas?${filter}`,
+          {
+            method: 'DELETE',
+            headers: headers()
+          }
+        );
+
+        if (!res.ok) throw new Error('Error al eliminar');
+        fetchReservas();
+      } catch (error) {
+        alert('Error al eliminar la reserva.');
+      }
+    }
+
+    if (isSessionValid()) {
+      showApp();
+    } else {
+      showLogin();
+    }
+  </script>
+</body>
+</html>
