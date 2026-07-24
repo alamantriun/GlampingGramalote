@@ -389,15 +389,16 @@ footer { background: var(--carbon); color: rgba(244,237,216,0.6); padding: 4rem 
   .hero-location { font-size: 0.72rem; margin-bottom: 2.5rem; }
   .hero-cta { flex-direction: column; align-items: center; gap: 0.8rem; }
   .btn-primary, .btn-outline { width: 100%; max-width: 280px; justify-content: center; padding: 0.9rem 2rem; font-size: 0.74rem; }
-  .hero-scroll { bottom: 1.5rem; left: 5.5rem; transform: none; animation: bounceMobile 2s infinite; }
+  .hero-scroll { bottom: 1.5rem; left: 50%; transform: translateX(-50%); animation: bounce 2s infinite; }
   .hero-company-name { font-size: clamp(1.8rem, 6vw, 3.5rem); }
   .about-img-wrap img { height: 280px; border-radius: 8px; }
   .about-accent { display: none; }
   .about-stats { grid-template-columns: 1fr 1fr; gap: 1rem; }
   .stat-num { font-size: 2rem; }
   .stat-box { padding: 1.2rem; }
-  .section-title { font-size: clamp(1.8rem, 5vw, 2.8rem); }
-  .hospedajes-header .section-text { max-width: 100%; }
+  .section-label { text-align: center; display: block; }
+  .section-title { font-size: clamp(1.8rem, 5vw, 2.8rem); text-align: center; }
+  .section-text { max-width: 100%; text-align: center; margin-left: auto; margin-right: auto; }
   .cards-grid { grid-template-columns: 1fr; gap: 1.5rem; }
   .card-body { padding: 1.4rem; }
   .card-img { height: 200px; }
@@ -434,8 +435,8 @@ footer { background: var(--carbon); color: rgba(244,237,216,0.6); padding: 4rem 
   .hero h1 { font-size: 2.2rem; }
   .hero-company-name { font-size: clamp(1.5rem, 8vw, 2.5rem); }
   .hero-badge { font-size: 0.55rem; padding: 0.3rem 0.8rem; }
-  .section-title { font-size: clamp(1.5rem, 5vw, 2.2rem); }
-  .section-label { font-size: 0.62rem; }
+  .section-title { font-size: clamp(1.5rem, 5vw, 2.2rem); text-align: center; }
+  .section-label { font-size: 0.62rem; text-align: center; display: block; }
   .about-img-wrap img { height: 220px; }
   .about-stats { grid-template-columns: 1fr; }
   .stat-num { font-size: 1.8rem; }

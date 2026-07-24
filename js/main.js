@@ -16,7 +16,7 @@ gsap.to('.hero-scroll',   { autoAlpha: 1, y: 0, duration: 0.6, delay: 1.3,  ease
 const heroCanvas = document.getElementById("hero-canvas");
 const heroCtx = heroCanvas.getContext("2d");
 const frameCount = 40;
-const currentFrame = index => `img/frames/${(index + 1).toString().padStart(2, '0')}.png`;
+const currentFrame = index => `img/frames/${(index + 1).toString().padStart(2, '0')}.jpg`;
 
 const images = [];
 const frames = { frame: frameCount - 1 };
@@ -88,9 +88,11 @@ function render() {
                     offsetX, offsetY, drawWidth, drawHeight);
 }
 
-// Esperar a que todas las imágenes carguen antes del primer render
+// Inicializar canvas inmediatamente para evitar glitches
+resizeCanvas();
+
 preloadFrames().then(() => {
-  resizeCanvas();
+  render();
   setTimeout(() => ScrollTrigger.refresh(), 100);
 });
 window.addEventListener("resize", resizeCanvas);
