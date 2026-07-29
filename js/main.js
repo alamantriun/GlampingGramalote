@@ -146,10 +146,6 @@ tlHero
   .fromTo('#hero-canvas', 
     { opacity: 0, scale: 1.05, filter: 'blur(4px) brightness(1.08)' },
     { opacity: 1, scale: 1, filter: 'blur(0px) brightness(1.08)', ease: 'power2.inOut', duration: 0.6, immediateRender: false }, 0.1)
-  // El degradado blanco de la parte baja aparece junto con el canvas
-  .fromTo('.hero-bottom-fade',
-    { autoAlpha: 0 },
-    { autoAlpha: 1, ease: 'power2.inOut', duration: 0.6, immediateRender: false }, 0.1)
   .to(frames, {
     frame: 0,
     snap: "frame",

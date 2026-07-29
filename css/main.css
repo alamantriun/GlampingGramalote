@@ -59,7 +59,6 @@ nav {
   position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
   opacity: 0; transform: scale(1.05); filter: blur(4px);
 }
-.hero-bottom-fade { display: none; }
 #hero-final-img {
   position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;
   opacity: 0; transform: scale(1.05); object-fit: contain; pointer-events: none;
@@ -92,7 +91,7 @@ nav {
   .connector-dot { width: 6px; height: 6px; }
 }
 
-.hero > *:not(#hero-canvas):not(#hero-final-img):not(.hero-company-name):not(#star-canvas):not(.dome-features):not(.hero-bottom-fade) {
+.hero > *:not(#hero-canvas):not(#hero-final-img):not(.hero-company-name):not(#star-canvas):not(.dome-features) {
   position: relative; z-index: 3;
 }
 #star-canvas { z-index: 2; }
@@ -408,13 +407,9 @@ footer { background: var(--carbon); color: rgba(244,237,216,0.6); padding: 4rem 
   .btn-primary, .btn-outline { width: 100%; max-width: 280px; justify-content: center; padding: 0.9rem 2rem; font-size: 0.74rem; }
   .hero-scroll { display: none; }
   .hero-company-name { font-size: clamp(1.8rem, 6vw, 3.5rem); }
-  .hero-bottom-fade {
-    display: block;
-    position: absolute; bottom: 0; left: 0; width: 100%; height: 25vh;
-    background: -webkit-linear-gradient(bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
-    background: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
-    z-index: 2; pointer-events: none;
-    opacity: 0; visibility: hidden;
+  #hero-canvas {
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 85%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 0%, black 85%, transparent 100%);
   }
   .about-img-wrap img { height: 280px; border-radius: 8px; }
   .about-accent { display: none; }
