@@ -390,7 +390,7 @@ gsap.utils.toArray('.exp-item').forEach((item, i) => {
 const GAL_SCRUB = 0.9;           // ← MODIFICABLE
 
 // Título galería
-gsap.fromTo('.galeria-inner > div:first-child', {
+gsap.fromTo('.galeria-header', {
   autoAlpha: 0,
   y: 40,
   filter: 'blur(6px)',

@@ -243,6 +243,7 @@ section { padding: 6rem 3rem; }
 .galeria-inner { max-width: 1200px; margin: 0 auto; }
 .galeria .section-title { color: var(--crema); }
 .galeria .section-label { color: var(--ambar); }
+.galeria-header { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 0.5rem; }
 .galeria-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 240px 240px; gap: 8px; margin-top: 3rem; }
 .galeria-item { overflow: hidden; border-radius: 3px; }
 .galeria-item:first-child { grid-row: 1 / 3; }
@@ -406,10 +407,9 @@ footer { background: var(--carbon); color: rgba(244,237,216,0.6); padding: 4rem 
   .btn-primary, .btn-outline { width: 100%; max-width: 280px; justify-content: center; padding: 0.9rem 2rem; font-size: 0.74rem; }
   .hero-scroll { display: none; }
   .hero-company-name { font-size: clamp(1.8rem, 6vw, 3.5rem); }
-  .hero::after {
-    content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 35vh;
-    background: linear-gradient(to top, var(--blanco-natural) 0%, transparent 100%);
-    z-index: 1; pointer-events: none;
+  #hero-canvas {
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
   }
   .about-img-wrap img { height: 280px; border-radius: 8px; }
   .about-accent { display: none; }
@@ -431,7 +431,7 @@ footer { background: var(--carbon); color: rgba(244,237,216,0.6); padding: 4rem 
   .galeria-grid { grid-template-columns: 1fr; grid-template-rows: auto; gap: 6px; }
   .galeria-item:first-child { grid-row: auto; }
   .galeria-item img { height: 220px; }
-  .galeria-inner > div:first-child { flex-direction: column !important; align-items: center !important; text-align: center !important; justify-content: center !important; }
+  .galeria-header { flex-direction: column; align-items: center; text-align: center; justify-content: center; }
   .reserva-inner { grid-template-columns: 1fr; gap: 2.5rem; }
   .form-box { padding: 1.5rem; }
   .form-row { grid-template-columns: 1fr; }
