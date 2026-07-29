@@ -430,7 +430,7 @@ footer { background: var(--carbon); color: rgba(244,237,216,0.6); padding: 4rem 
   .galeria-grid { grid-template-columns: 1fr; grid-template-rows: auto; gap: 6px; }
   .galeria-item:first-child { grid-row: auto; }
   .galeria-item img { height: 220px; }
-  .galeria-inner > div:first-child { flex-direction: column; align-items: flex-start; }
+  .galeria-inner > div:first-child { flex-direction: column; align-items: center; text-align: center; }
   .reserva-inner { grid-template-columns: 1fr; gap: 2.5rem; }
   .form-box { padding: 1.5rem; }
   .form-row { grid-template-columns: 1fr; }
