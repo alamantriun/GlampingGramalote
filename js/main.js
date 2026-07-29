@@ -93,7 +93,16 @@ resizeCanvas();
 
 preloadFrames().then(() => {
   render();
-  setTimeout(() => ScrollTrigger.refresh(), 100);
+  const preloader = document.getElementById('page-preloader');
+  if (preloader) {
+    preloader.classList.add('hide-loader');
+    setTimeout(() => {
+      preloader.style.display = 'none';
+      ScrollTrigger.refresh();
+    }, 600);
+  } else {
+    setTimeout(() => ScrollTrigger.refresh(), 100);
+  }
 });
 window.addEventListener("resize", resizeCanvas);
 
