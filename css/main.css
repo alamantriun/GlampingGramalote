@@ -92,7 +92,7 @@ nav {
   .connector-dot { width: 6px; height: 6px; }
 }
 
-.hero > *:not(#hero-canvas):not(#hero-final-img):not(.hero-company-name):not(#star-canvas):not(.dome-features) {
+.hero > *:not(#hero-canvas):not(#hero-final-img):not(.hero-company-name):not(#star-canvas):not(.dome-features):not(.hero-bottom-fade) {
   position: relative; z-index: 3;
 }
 #star-canvas { z-index: 2; }
