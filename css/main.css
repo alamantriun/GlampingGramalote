@@ -410,9 +410,9 @@ footer { background: var(--carbon); color: rgba(244,237,216,0.6); padding: 4rem 
   .hero-company-name { font-size: clamp(1.8rem, 6vw, 3.5rem); }
   .hero-bottom-fade {
     display: block;
-    position: absolute; bottom: 0; left: 0; width: 100%; height: 15vh;
-    background: -webkit-linear-gradient(bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 60%, rgba(255,255,255,0) 100%);
-    background: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 60%, rgba(255,255,255,0) 100%);
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 25vh;
+    background: -webkit-linear-gradient(bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(to top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
     z-index: 2; pointer-events: none;
     opacity: 0; visibility: hidden;
   }
